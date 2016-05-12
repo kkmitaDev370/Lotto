@@ -2,48 +2,26 @@ var wylosowane = [];
 
 
 
-
-/*
-for(var i=0;i<6;i++){
+for(var i=0;i<10;i++){
 
 	wylosowane[i] = document.getElementsByClassName('wynik_lotto')[i].innerHTML
 
 	console.log(document.getElementsByClassName('wynik_lotto')[i].innerHTML);
-
 }
-
 document.getElementById('losowane').innerHTML = wylosowane;
 
 
-*/
 
 
-var variableToSend = 'foo';
+function pokaz() {
 
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET", "pehap.php?zmienna=" + wylosowane, true);
+        xmlhttp.send();
 
-
-
-function test() {
-    $http({
-        url: "pehap.php",
-        method: "POST",
-        data: {
-            data: variableToSend
-        }
-    }).success(function(response) {
-    console.log(response);
-});
-
-
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      document.getElementById('losowane').innerHTML = xhttp.responseText;
-    }
-  };
-  xhttp.open("GET", "pehap.php?fname=Henry&lname=Ford", true);
-  xhttp.send();
 }
-
-
-

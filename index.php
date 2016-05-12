@@ -7,7 +7,6 @@
     <title>Arden</title>
   </head>
   <body>
-    <script src="javascript.js"></script>
 
 <style>
 	#content {
@@ -16,13 +15,30 @@
 </style>
 
 
-<h1>Losowanie lotto</h1>
+<h1>losy</h1>
 
-Ostatnie losowanie to : <br>
+Ostatnie losowanie to : <br><br>
 <div id="losowane"></div>
 
 <button onclick="test()">KLICK</button>
-<div id="content"><?php include 'pehap.php';?></div>
+
+
+
+
+
+<p><b>Start typing a name in the input field below:</b></p>
+<form> 
+First name: <input type="text" onkeyup="pokaz()">
+</form>
+<p>Suggestions: <span id="txtHint"></span></p>
+
+
+<h1>COJESTT</h1>
+
+
+<div id="content"> <?php include 'include.php';?></div>
+
+
 
 
 
@@ -30,5 +46,7 @@ Ostatnie losowanie to : <br>
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 
 <script src="losy.json"></script>
+<script src="javascript.js"></script>
+
   </body>
 </html>
