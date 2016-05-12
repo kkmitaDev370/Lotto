@@ -7,6 +7,8 @@
     <title>Arden</title>
   </head>
   <body>
+    <script src="javascript.js"></script>
+
 <style>
 	#content {
 		visibility: hidden;
@@ -19,14 +21,14 @@
 Ostatnie losowanie to : <br>
 <div id="losowane"></div>
 
-
+<button onclick="test()">KLICK</button>
 <div id="content"><?php include 'pehap.php';?></div>
 
 
 
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script src="javascript.js"></script>
+
 <script src="losy.json"></script>
   </body>
 </html>
