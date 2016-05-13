@@ -17,36 +17,29 @@
 
 <h1>losy</h1>
 
-Ostatnie losowanie to : <br><br>
+<big><b><?php include 'connect.php';?> <br> <br></b></big>
+
+
+Ostatnie losowanie to : <br>
 <div id="losowane"></div>
 
-<button onclick="test()">KLICK</button>
 
 
 
+<button onclick="post_losy()">Wyslij losy</button>
+<div id="post_losy"></div>
 
+<br><br>
 
-<p><b>Start typing a name in the input field below:</b></p>
-<form> 
-First name: <input type="text" onkeyup="pokaz()">
-</form>
-<p>Suggestions: <span id="txtHint"></span></p>
+<button onclick="get_losy()">Wez losy</button>
+<div id="get_losy"></div>
 
-
-<h1>COJESTT</h1>
 
 
 <div id="content"> <?php include 'include.php';?></div>
 
 
-
-
-
-
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
-
-<script src="losy.json"></script>
 <script src="javascript.js"></script>
-
   </body>
 </html>
