@@ -2,13 +2,19 @@ var wylosowane = [];
 var data_to_send;
 var liczby = [];
 var losowanie = [];
-for(var i=0;i<6;i++){
+var suma = [];
+    var results = [];
+
+
+
+
+/*for(var i=0;i<6;i++){
 
 	wylosowane[i] = document.getElementsByClassName('wynik_lotto')[i].innerHTML
 
 	console.log(document.getElementsByClassName('wynik_lotto')[i].innerHTML);
 }
-document.getElementById('losowane').innerHTML = wylosowane;
+document.getElementById('losowane').innerHTML = wylosowane;*/
 
 function post_losy() {
 
@@ -24,20 +30,63 @@ function post_losy() {
 
 }
 
-function get_losy() {
 
-    $.getJSON('get.php', function(losowanie) {
 
-        document.getElementById("get_losy").innerHTML = losowanie;
+
+
+$( document ).ready(function() {
+   
+       $.getJSON('get.php', function(data) {
+
+            document.getElementById("get_losy").innerHTML = data;
+            losowanie = data;
+            console.log(losowanie);
+            sumuj();
+        });
+
+});
+
+
+
+function sumuj() {
+
 
         for(var i=0;i<losowanie.length;i++){
-            console.log(losowanie[i]);
 
-
+            console.log('sumowane po raz:'+i);
+            suma.push(parseInt(losowanie[i][0]));
+            suma.push(parseInt(losowanie[i][1]));
+            suma.push(parseInt(losowanie[i][2]));
+            suma.push(parseInt(losowanie[i][3]));
+            suma.push(parseInt(losowanie[i][4]));
+            suma.push(parseInt(losowanie[i][5]));
         }
+        console.log(suma);
+        powtorka();
+}
 
-    });
 
+
+
+
+function powtorka() {
+
+
+    var sorted_suma = suma.slice().sort();
+    console.log('sorted_suma= '+sorted_suma);
+
+    for (var i = 0; i < suma.length; i++) {
+        if (sorted_suma[i + 1] == sorted_suma[i]) {
+            results.push(sorted_suma[i]);
+        }
+    }
+
+
+    console.log('results= '+results);
+
+
+
+   
 }
 
 

@@ -9,6 +9,9 @@
   <body>
 
 <style>
+  body {
+    font-size: 20px !important;
+  }
 	#content {
 		visibility: hidden;
 	}
@@ -29,15 +32,17 @@ Ostatnie losowanie to : <br>
 <button onclick="post_losy()">Wyslij losy</button>
 <div id="post_losy"></div>
 
-<br><br>
-
-<button onclick="get_losy()">Wez losy</button>
+<br>
+-------------------------
+<br>
+<div>Twoje losy to:</div> <br>
 <div id="get_losy"></div>
 
 
 
-<div id="content"> <?php include 'include.php';?></div>
-
+<!-- 
+<div id="content"> <?php // include 'include.php';?></div>
+ -->
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="javascript.js"></script>

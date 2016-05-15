@@ -15,12 +15,12 @@ if ($result->num_rows > 0) {
 
      while($row = $result->fetch_assoc()) {
 
-		$data_array[$n]['pierwsza'] = $row['pierwsza'];
-		$data_array[$n]['druga'] = $row['druga'];
-		$data_array[$n]['trzecia'] = $row['trzecia'];
-		$data_array[$n]['czwarta'] = $row['czwarta'];
-		$data_array[$n]['piata'] = $row['piata'];
-		$data_array[$n]['szosta'] = $row['szosta'];
+		$data_array[$n][0] = $row['pierwsza'];
+		$data_array[$n][1] = $row['druga'];
+		$data_array[$n][2] = $row['trzecia'];
+		$data_array[$n][3] = $row['czwarta'];
+		$data_array[$n][4] = $row['piata'];
+		$data_array[$n][5] = $row['szosta'];
 
 		$n++;
       	
