@@ -77,16 +77,18 @@ function powtorka() {
 
     for (var i = 0; i < suma.length; i++) {
         if (sorted_suma[i + 1] == sorted_suma[i]) {
-            results.push(sorted_suma[i]);
+            if (results.indexOf(sorted_suma[i]) == -1)      /*??? SPRAWEDZ*/
+                results.push(sorted_suma[i]);
         }
     }
 
 
     console.log('results= '+results);
 
-
-
-   
+    for (var i = 0; i < results.length; i++){
+        var spr = results[i];
+        
+    }
 }
 
 
