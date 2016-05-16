@@ -15,6 +15,12 @@
 	#content {
 		visibility: hidden;
 	}
+  table {
+    text-align: center;
+  }
+  table td {
+    border: 1px solid black;
+  }
 </style>
 
 
@@ -37,6 +43,34 @@ Ostatnie losowanie to : <br>
 <br>
 <div>Twoje losy to:</div> <br>
 <div id="get_losy"></div>
+
+
+
+
+
+
+<table id="table">
+  <tr>
+    <th>Liczba</th>
+    <th>Ile razy</th>
+  </tr>
+  <tr>
+  </tr>
+</table>
+<br>
+<table id="table2">
+  <tr>
+    <th>Liczba</th>
+    <th>Ile razy</th>
+  </tr>
+  <tr>
+  </tr>
+</table>
+
+
+
+
+
 
 
 
