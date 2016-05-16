@@ -84,11 +84,13 @@ function powtorka() {
 
     console.log('results= '+results);
 
+
+
+
     zliczenie = suma.reduce(function(prev, cur) {
       prev[cur] = (prev[cur] || 0) + 1;
       return prev;
     }, {});
-
 
     console.log('zliczenie= '+zliczenie);
 
@@ -110,8 +112,12 @@ function sortObject(obj) {
         }
     }
     arr.sort(function(a, b) {
+        return a.int - b.int;
+    });
+    arr.sort(function(a, b) {
         return b.value - a.value;
     });
+
     return arr; // returns array
 }
 
