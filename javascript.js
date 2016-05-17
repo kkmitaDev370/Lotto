@@ -5,9 +5,8 @@ var losowanie = [];
 var suma = [];
     var results = [];
     var zliczenie;
-var last;
 var arr;
-
+    var sortable=[];
 
 /*for(var i=0;i<6;i++){
 
@@ -82,28 +81,34 @@ function powtorka() {
 
 
 
-function sortObject(obj) {
-    var arr = [];
-    var prop;
-    for (prop in obj) {
+function sortProperties(obj)
+{
+  // convert object into array
 
-        if (obj.hasOwnProperty(prop)) {
-            arr.push({
-                'int': prop,
-                'value': obj[prop]
-            });
-        }
-    }
+    for(var key in obj)
+        if(obj.hasOwnProperty(key))
+            sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+
+    // sort items by value
+    console.log("sortable = "+sortable);
 
 
+    sortable.sort(function(a, b)
+    {
+            return b[1]-a[1]; // compare numbers
+    });
 
 
-    return arr; // returns array
+
+
+    return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
 }
 
 
 
-sort = sortObject(zliczenie);
+
+
+sort = sortProperties(zliczenie,true);
 console.log('sort= '+sort);
 
 
@@ -117,31 +122,27 @@ console.log('sort= '+sort);
 
     for (var i = 0; i < sort.length; i++){
 
-        if(sort[i]['value'] > 1){
+        if(sort[i][1] > 1){
 
             var table = document.getElementById("table");
-            var row = table.insertRow(1);
+            var row = table.insertRow(-1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
-            cell1.innerHTML = sort[i]['int'];
-            cell2.innerHTML = sort[i]['value'];
-
-            last = sort[i]['value'];
-
-
+            cell1.innerHTML = sort[i][0];
+            cell2.innerHTML = sort[i][1];
 
 
         }      
 
 
-         if(sort[i]['value'] == 1){
+         if(sort[i][1] == 1){
 
             var table = document.getElementById("table2");
-            var row = table.insertRow(1);
+            var row = table.insertRow(-1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
-            cell1.innerHTML = sort[i]['int'];
-            cell2.innerHTML = sort[i]['value'];
+            cell1.innerHTML = sort[i][0];
+            cell2.innerHTML = sort[i][1];
         }
        
     }
@@ -157,4 +158,41 @@ console.log('sort= '+sort);
 
 
 
+/*
 
+
+
+function sortProperties(obj)
+{
+  // convert object into array
+    var sortable=[];
+    for(var key in obj)
+        if(obj.hasOwnProperty(key))
+            sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+
+    // sort items by value
+    console.log("sortable = "+sortable);
+
+
+    sortable.sort(function(a, b)
+    {
+        if (a[1]==1) {
+            return b[0]-a[0]; // compare numbers
+            }
+        else
+            return b[1]-a[1]; // compare numbers
+    });
+
+
+    return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
+}
+
+
+
+
+
+sort = sortProperties(zliczenie,true);
+console.log('sort= '+sort);
+
+
+*/
