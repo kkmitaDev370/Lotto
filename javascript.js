@@ -5,7 +5,7 @@ var losowanie = [];
 var suma = [];
     var results = [];
     var zliczenie;
-
+var last;
 var arr;
 
 
@@ -72,21 +72,6 @@ function sumuj() {
 function powtorka() {
 
 
-    var sorted_suma = suma.slice().sort();
-    console.log('sorted_suma= '+sorted_suma);
-
-    for (var i = 0; i < suma.length; i++) {
-        if (sorted_suma[i + 1] == sorted_suma[i]) {
-            if (results.indexOf(sorted_suma[i]) == -1)     
-                results.push(sorted_suma[i]);
-        }
-    }
-
-    console.log('results= '+results);
-
-
-
-
     zliczenie = suma.reduce(function(prev, cur) {
       prev[cur] = (prev[cur] || 0) + 1;
       return prev;
@@ -97,13 +82,11 @@ function powtorka() {
 
 
 
-
-
-
 function sortObject(obj) {
     var arr = [];
     var prop;
     for (prop in obj) {
+
         if (obj.hasOwnProperty(prop)) {
             arr.push({
                 'int': prop,
@@ -111,12 +94,9 @@ function sortObject(obj) {
             });
         }
     }
-    arr.sort(function(a, b) {
-        return a.int - b.int;
-    });
-    arr.sort(function(a, b) {
-        return b.value - a.value;
-    });
+
+
+
 
     return arr; // returns array
 }
@@ -135,36 +115,29 @@ console.log('sort= '+sort);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     for (var i = 0; i < sort.length; i++){
 
         if(sort[i]['value'] > 1){
 
             var table = document.getElementById("table");
-            var row = table.insertRow(i);
+            var row = table.insertRow(1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             cell1.innerHTML = sort[i]['int'];
             cell2.innerHTML = sort[i]['value'];
-        }
+
+            last = sort[i]['value'];
+
+
+
+
+        }      
+
 
          if(sort[i]['value'] == 1){
 
             var table = document.getElementById("table2");
-            var row = table.insertRow(i);
+            var row = table.insertRow(1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             cell1.innerHTML = sort[i]['int'];
