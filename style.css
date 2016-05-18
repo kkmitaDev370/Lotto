@@ -1,0 +1,55 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+    font-size: 20px !important;
+}
+.clear {
+  clear: both;
+}
+
+
+h1 {
+  text-align: center;
+}
+#content {
+    visibility: hidden;
+}
+
+
+
+table {
+  text-align: center;
+}
+table td {
+  border: 1px solid black;
+}
+
+
+
+.show_losy div {
+  font-family: verdana;
+  text-align: center;
+  font-size: 33px;
+}
+#display_losy div {
+    border: 2px solid #292929;
+    padding: 20px;
+    margin-bottom: 10px;
+  color: red;
+}
+#display_losy_ile div {
+    font-size: .5em;
+        border: 1px solid #E3E3E3;
+        color: #7E7E7E;
+
+}
+#last_losowanie {
+  width: 20%;
+  text-align: center;
+  margin: 10px 0;
+  border: 1px solid black;
+}
+
+

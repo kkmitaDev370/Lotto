@@ -5,49 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Arden</title>
+
+    <link href="style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
 
-<style>
-  body {
-    font-size: 20px !important;
-  }
-	#content {
-		visibility: hidden;
-	}
-  table {
-    text-align: center;
-  }
-  table td {
-    border: 1px solid black;
-  }
-</style>
 
-
-<h1>losy</h1>
 
 <big><b><?php include 'connect.php';?> <br> <br></b></big>
-
-
-Ostatnie losowanie to : <br>
-<div id="losowane"></div>
-
+<!-- <button onclick="post_losy()">Wyslij losy</button>
+<div id="post_losy"></div> -->
 
 
 
-<button onclick="post_losy()">Wyslij losy</button>
-<div id="post_losy"></div>
 
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+
+
+
+      <h1>Losowanie na dziś to: </h1>
+
+      <div class="show_losy">
+        <div id="display_losy">
+        </div>
+        <div id="display_losy_ile">
+        </div>
+      </div>
+
+<div class="clear"></div>
+
+<div id="last_losowanie">
+  Ostatnie losowanie to : <br>
+
+</div>
 <br>
--------------------------
-<br>
-<div>Twoje losy to:</div> <br>
-<div id="get_losy"></div>
 
 
 
 
-
+<!-- 
 
 <table id="table">
   <tr>
@@ -67,16 +69,32 @@ Ostatnie losowanie to : <br>
   </tr>
 </table>
 
-
-
-
-
-
-
-
-<!-- 
-<div id="content"> <?php // include 'include.php';?></div>
  -->
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div id="content"> <?php include 'include.php';?></div>
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="javascript.js"></script>
