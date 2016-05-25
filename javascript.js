@@ -12,13 +12,11 @@ var wytypowane = [];
 
 for(var i=0;i<6;i++){
 
-//	wylosowane[i] = document.getElementsByClassName('wynik_lotto')[i].innerHTML
-
     wylosowane.push(parseInt(document.getElementsByClassName('wynik_lotto')[i].innerHTML));
-
 
 	console.log(document.getElementsByClassName('wynik_lotto')[i].innerHTML);
 }
+
 function spr_POST(){
     for(var i=0;i<6;i++){
         if (wylosowane[i]!=losowanie[losowanie.length-1][i])
@@ -26,27 +24,6 @@ function spr_POST(){
     }
     return true;
 }
-
-function loop(){
-    console.log('loop');
-    setTimeout(function(){ 
-    check_day();
-    loop();
-    }, 86400000);
-}
-
-
-
-
-function check_day() {
-    var date = new Date();
-    if (date.getDay() == 3 || 5 || 7 ){
-        if (!spr_POST()) 
-            post_losy();
-    }
-}
-
-
 
 
 function post_losy() {
@@ -62,6 +39,16 @@ function post_losy() {
 }
 
 
+function check_day() {
+    var date = new Date();
+    if (date.getDay() == 3 || 5 || 7 ){
+        if (!spr_POST()) {
+            losowanie.push(wylosowane);
+            post_losy();
+        }
+    }
+}
+
 
 
 $( document ).ready(function() {
@@ -70,10 +57,10 @@ $( document ).ready(function() {
 
             losowanie = data;
             console.log(losowanie);
+            check_day(); 
             start();
 
-            loop();
-            check_day();
+
 
         });
 
@@ -137,13 +124,32 @@ console.log("sortable_less= "+sortable_less);
 /*=====               przeslanie wytypowanych             =====*/   
 
 
-for (var i = 0; i < 6; i++){
-    wytypowane.push(sortable_more[i]); 
-    wytypowane.sort(function(a, b)
-    {
-            return a[0]-b[0];
-    });
+for (var i = 0; i < sortable_more.length ; i++){
+    if(i<6)
+        wytypowane.push(sortable_more[i]);
+
+    
+
 }
+
+if (wytypowane.length < 6) {
+    var liczba_losowa = Math.floor((Math.random() * sortable_less.length) + 1);
+    wytypowane.push(liczba_losowa);
+
+    /*... SKONCZYC.....
+            dopelnic WYTYPOWANE o brakujace elementy
+    */
+
+}
+
+
+
+
+wytypowane.sort(function(a, b)
+{
+        return a[0]-b[0];
+});
+
 
 
 /*=====                 DISPLAY                      =====*/   
@@ -170,7 +176,8 @@ for (var i = 0; i < 6; i++){
 */
 
 
-for (var i = 0; i < 6; i++){
+
+for (var i = 0; i < wytypowane.length ; i++){
     var elem = document.getElementById("display_losy");
     var button = document.createElement("DIV");
     button.setAttribute("class", "col-md-2");
@@ -201,35 +208,15 @@ elem.appendChild(button);
 
 
 
-
-
-
 /*
-function create_buttons() {
-    for (var x=0;x<document.getElementsByClassName("buttons").length;x++){
-        var buttons = document.getElementsByClassName("buttons")[x];
-        for (var i=0;i<button.length;i++){
-            var y=i+1;
-            button[i][0] = document.createElement("BUTTON");
-            button[i][0].setAttribute("id", "button_"+y);
-            button[i][0].setAttribute("class", "button");
-            button[i][0].setAttribute("ontouchstart", button[i][1]);
-            buttons.appendChild(button[i][0]);
-        }
-    }
+function loop(){
+    console.log('loop');
+    setTimeout(function(){ 
+    check_day();
+    loop();
+    }, 86400000);
 }
-
 */
-
-
-
-
-
-
-
-
-
-
 
 
 
