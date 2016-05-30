@@ -1,3 +1,4 @@
+var yellow_1 = [2,4]
 var wylosowane = [];
 var data_to_send;
 var liczby = [];
@@ -9,28 +10,64 @@ var arr;
 var sortable_more=[];
 var sortable_less=[];
 var wytypowane = [];
+var y=0;
+var last_losowanie;
+var schowek = [];
+var test = [];
+/*yellowball liczba1*/
 
-for(var i=0;i<6;i++){
 
-    wylosowane.push(parseInt(document.getElementsByClassName('wynik_lotto')[i].innerHTML));
 
-	console.log(document.getElementsByClassName('wynik_lotto')[i].innerHTML);
+
+function spr_ostatnie() {
+
+    while(y<=20) {
+
+        schowek[0] = parseInt(document.getElementsByClassName('yellowball liczba1')[y].innerHTML);
+        schowek[1] = parseInt(document.getElementsByClassName('yellowball liczba2')[y].innerHTML);
+        schowek[2] = parseInt(document.getElementsByClassName('yellowball liczba3')[y].innerHTML);
+        schowek[3] = parseInt(document.getElementsByClassName('yellowball liczba4')[y].innerHTML);
+        schowek[4] = parseInt(document.getElementsByClassName('yellowball liczba5')[y].innerHTML);
+        schowek[5] = parseInt(document.getElementsByClassName('yellowball liczba6')[y].innerHTML);
+    
+        if (schowek[1]==last_losowanie[1]&&schowek[3]==last_losowanie[3]){
+            y-=2;
+            return y;
+        }
+        y+=2;
+    }
+    return y;
 }
 
-function spr_POST(){
-    for(var i=0;i<6;i++){
-        if (wylosowane[i]!=losowanie[losowanie.length-1][i])
-            return false;
+function posting() {
+
+    spr_ostatnie(y); 
+
+    while (y>=0) {
+        wylosowane = [];
+        wylosowane[0] = parseInt(document.getElementsByClassName('yellowball liczba1')[y].innerHTML);
+        wylosowane[1] = parseInt(document.getElementsByClassName('yellowball liczba2')[y].innerHTML);
+        wylosowane[2] = parseInt(document.getElementsByClassName('yellowball liczba3')[y].innerHTML);
+        wylosowane[3] = parseInt(document.getElementsByClassName('yellowball liczba4')[y].innerHTML);
+        wylosowane[4] = parseInt(document.getElementsByClassName('yellowball liczba5')[y].innerHTML);
+        wylosowane[5] = parseInt(document.getElementsByClassName('yellowball liczba6')[y].innerHTML);
+
+        console.log("wylosowane = "+wylosowane);
+        losowanie.push(wylosowane);
+
+        post_losy()
+        y-=2;
     }
-    return true;
+
 }
 
 
 function post_losy() {
         console.log('POST LOSY');
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function(data) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+               
             }
         };
         xmlhttp.open("GET", "pehap.php?pierwsza="+wylosowane[0]+"&druga="+wylosowane[1]+"&trzecia="+wylosowane[2]+"&czwarta="+wylosowane[3]+"&piata="+wylosowane[4]+"&szosta="+wylosowane[5], true);
@@ -39,32 +76,30 @@ function post_losy() {
 }
 
 
-function check_day() {
-    var date = new Date();
-    if (date.getDay() == 3 || 5 || 7 ){
-        if (!spr_POST()) {
-            losowanie.push(wylosowane);
-            post_losy();
-        }
-    }
-}
-
-
-
 $( document ).ready(function() {
    
        $.getJSON('get.php', function(data) {
 
             losowanie = data;
+            last_losowanie = losowanie[losowanie.length-1];
             console.log(losowanie);
-            check_day(); 
+            posting(); 
+
             start();
-
-
-
         });
 
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -261,3 +296,152 @@ console.log('sort= '+sort);
 
 
 */
+
+
+
+
+
+
+
+
+
+
+/*for(var i=0;i<6;i++){
+
+    wylosowane.push(parseInt(document.getElementsByClassName('wynik_lotto')[i].innerHTML));
+
+    console.log(document.getElementsByClassName('wynik_lotto')[i].innerHTML);
+}
+
+function spr_POST(){
+    for(var i=0;i<6;i++){
+        if (wylosowane[i]!=losowanie[losowanie.length-1][i])
+            return false;
+    }
+    return true;
+}
+
+
+function post_losy() {
+        console.log('POST LOSY');
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            }
+        };
+        xmlhttp.open("GET", "pehap.php?pierwsza="+wylosowane[0]+"&druga="+wylosowane[1]+"&trzecia="+wylosowane[2]+"&czwarta="+wylosowane[3]+"&piata="+wylosowane[4]+"&szosta="+wylosowane[5], true);
+        xmlhttp.send();
+
+}
+
+
+function check_day() {
+    var date = new Date();
+    if (date.getDay() == 3 || 5 || 7 ){
+        if (!spr_POST()) {
+            losowanie.push(wylosowane);
+            post_losy();
+        }
+    }
+}
+
+
+
+$( document ).ready(function() {
+   
+       $.getJSON('get.php', function(data) {
+
+            losowanie = data;
+            console.log(losowanie);
+            check_day(); 
+            start();
+
+
+
+        });
+
+});
+*/
+
+
+
+
+
+
+/*===================================================================
+
+function spr_ostatnie() {
+    for(var y=0; y=<20 ; y+=2){
+
+    var test[0] = parseInt(document.getElementsByClassName('yellowball liczba1')[y].innerHTML);
+    var test[1] = parseInt(document.getElementsByClassName('yellowball liczba2')[y].innerHTML);
+    var test[2] = parseInt(document.getElementsByClassName('yellowball liczba3')[y].innerHTML);
+    var test[3] = parseInt(document.getElementsByClassName('yellowball liczba4')[y].innerHTML);
+    var test[4] = parseInt(document.getElementsByClassName('yellowball liczba5')[y].innerHTML);
+    var test[5] = parseInt(document.getElementsByClassName('yellowball liczba6')[y].innerHTML);
+
+        if (test[1]==last_losowanie[1]&&test[3]==last_losowanie[3])
+            return y;
+    }
+}
+
+function posting() {
+
+    wylosowane[0] = parseInt(document.getElementsByClassName('yellowball liczba1')[v].innerHTML);
+    wylosowane[1] = parseInt(document.getElementsByClassName('yellowball liczba2')[v].innerHTML);
+    wylosowane[2] = parseInt(document.getElementsByClassName('yellowball liczba3')[v].innerHTML);
+    wylosowane[3] = parseInt(document.getElementsByClassName('yellowball liczba4')[v].innerHTML);
+    wylosowane[4] = parseInt(document.getElementsByClassName('yellowball liczba5')[v].innerHTML);
+    wylosowane[5] = parseInt(document.getElementsByClassName('yellowball liczba6')[v].innerHTML);
+
+    console.log(wylosowane);
+
+    if (spr_liczby()) {
+       losowanie.push(wylosowane);
+        console.log("losowanie !!!= "+losowanie)
+        post_losy()
+        v+=2;
+        posting()
+    }
+}
+
+function spr_liczby(){
+    
+    if (wylosowane[1]==last_losowanie[1]&&wylosowane[3]==last_losowanie[3])
+        return false;
+    else
+        return true;
+}
+
+function post_losy() {
+        console.log('POST LOSY');
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            }
+        };
+        xmlhttp.open("GET", "pehap.php?pierwsza="+wylosowane[0]+"&druga="+wylosowane[1]+"&trzecia="+wylosowane[2]+"&czwarta="+wylosowane[3]+"&piata="+wylosowane[4]+"&szosta="+wylosowane[5], true);
+        xmlhttp.send();
+
+}
+
+
+$( document ).ready(function() {
+   
+       $.getJSON('get.php', function(data) {
+
+            losowanie = data;
+            last_losowanie = losowanie[losowanie.length-1];
+            console.log(losowanie);
+            posting(); 
+
+            start();
+        });
+
+});
+
+
+
+
+*/
+

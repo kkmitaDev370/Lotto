@@ -17,7 +17,7 @@ $szosta = $_REQUEST["szosta"];
 
 
 
-$sql = "INSERT INTO losowania (pierwsza, druga, trzecia, czwarta, piata, szosta)
+$sql = "INSERT INTO losy (pierwsza, druga, trzecia, czwarta, piata, szosta)
 VALUES ($pierwsza, $druga, $trzecia, $czwarta, $piata, $szosta)";
 
 if ($conn->query($sql) === TRUE) {

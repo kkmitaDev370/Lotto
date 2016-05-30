@@ -7,7 +7,7 @@ $n = 0;
 
 
 
-$sql = "SELECT pierwsza, druga, trzecia, czwarta, piata, szosta FROM losowania";
+$sql = "SELECT pierwsza, druga, trzecia, czwarta, piata, szosta FROM losy";
 $result = $conn->query($sql);
 
 
