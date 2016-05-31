@@ -4,21 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Arden</title>
+    <title>Lotto</title>
 
     <link href="style.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="http://lottocdn.directtraffic.pl/sites/default/files/basic_favicon_1.ico" type="image/x-icon" /> 
   </head>
   <body>
 
 
 
 <big><b><?php include 'connect.php';?> <br> <br></b></big>
-<!-- <button onclick="post_losy()">Wyslij losy</button>
-<div id="post_losy"></div> -->
-
-
-
 
 
 
@@ -28,8 +24,8 @@
       
 
 
-
       <h1>Losowanie na dziś to: </h1>
+      <br>
 
       <div class="show_losy">
         <div id="display_losy">
@@ -44,51 +40,12 @@
   Ostatnie losowanie to : <br>
 
 </div>
-<br>
-
-
-
-
-<!-- 
-
-<table id="table">
-  <tr>
-    <th>Liczba</th>
-    <th>Ile razy</th>
-  </tr>
-  <tr>
-  </tr>
-</table>
-<br>
-<table id="table2">
-  <tr>
-    <th>Liczba</th>
-    <th>Ile razy</th>
-  </tr>
-  <tr>
-  </tr>
-</table>
-
- -->
-
-
-
-
-
-
-
-
-
 
 
 
     </div>
   </div>
 </div>
-
-
-
-
 
 
 

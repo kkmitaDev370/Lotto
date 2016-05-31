@@ -29,15 +29,17 @@ table td {
 
 
 .show_losy div {
-  font-family: verdana;
+    font-family: inherit;
   text-align: center;
   font-size: 33px;
 }
 #display_losy div {
-    border: 2px solid #292929;
+border: 3px solid #FFFFFF;
+    background: linear-gradient(to right,#00A3BE,#08554A);
+    border-radius: 15px;
     padding: 20px;
     margin-bottom: 10px;
-  color: red;
+    color: #FFFFFF;
 }
 #display_losy_ile div {
     font-size: .5em;
@@ -46,10 +48,14 @@ table td {
 
 }
 #last_losowanie {
-  width: 20%;
-  text-align: center;
-  margin: 10px 0;
-  border: 1px solid black;
+    width: 22%;
+    text-align: center;
+    border: 3px solid #FFFFFF;
+    background: linear-gradient(to right,#049164,#08551C);
+        border-radius: 15px;
+    padding: 17px;
+    margin-top: 12px;
+    color: #FFFFFF;
 }
 
 
