@@ -10,46 +10,30 @@ var schowek = [];
 var zliczenie;
 var y=0;
 var last_losowanie;
+var nr_losowanie;
+var ost_losowanie = document.getElementsByClassName('wynik')[0].getElementsByTagName('td')[1].innerHTML;
 
 
-
-function spr_ostatnie() {
-
-    while(y<=20) {
-
-        schowek[0] = parseInt(document.getElementsByClassName('yellowball liczba1')[y].innerHTML);
-        schowek[1] = parseInt(document.getElementsByClassName('yellowball liczba2')[y].innerHTML);
-        schowek[2] = parseInt(document.getElementsByClassName('yellowball liczba3')[y].innerHTML);
-        schowek[3] = parseInt(document.getElementsByClassName('yellowball liczba4')[y].innerHTML);
-        schowek[4] = parseInt(document.getElementsByClassName('yellowball liczba5')[y].innerHTML);
-        schowek[5] = parseInt(document.getElementsByClassName('yellowball liczba6')[y].innerHTML);
-    
-        if (schowek[1]==last_losowanie[1]&&schowek[3]==last_losowanie[3]){
-            y-=2;
-            return y;
-        }
-        y+=2;
-    }
-    return y;
-}
 function posting() {
 
-    spr_ostatnie(y); 
+    nr_losowanie = parseInt(last_losowanie[0]);
 
-    while (y>=0) {
-        wylosowane = [];
-        wylosowane[0] = parseInt(document.getElementsByClassName('yellowball liczba1')[y].innerHTML);
-        wylosowane[1] = parseInt(document.getElementsByClassName('yellowball liczba2')[y].innerHTML);
-        wylosowane[2] = parseInt(document.getElementsByClassName('yellowball liczba3')[y].innerHTML);
-        wylosowane[3] = parseInt(document.getElementsByClassName('yellowball liczba4')[y].innerHTML);
-        wylosowane[4] = parseInt(document.getElementsByClassName('yellowball liczba5')[y].innerHTML);
-        wylosowane[5] = parseInt(document.getElementsByClassName('yellowball liczba6')[y].innerHTML);
+    while (nr_losowanie <= ost_losowanie) {
+        if (nr_losowanie != last_losowanie[0]) {
 
-        console.log("wylosowane = "+wylosowane);
-        losowanie.push(wylosowane);
+            wylosowane = [];
 
-        post_losy()
-        y-=2;
+            for(var g=1; g<7; g++) {
+               wylosowane[g] = document.getElementsByClassName(nr_losowanie+'-rosnaco')[y].getElementsByClassName('wynik_lotto')[g-1].innerHTML;
+            }
+            wylosowane[0] = nr_losowanie;
+
+            console.log("wylosowane = "+wylosowane);
+            losowanie.push(wylosowane);
+            post_losy()
+        }
+
+        nr_losowanie++;
     }
 
 }
@@ -64,7 +48,7 @@ function post_losy() {
                
             }
         };
-        xmlhttp.open("GET", "pehap.php?pierwsza="+wylosowane[0]+"&druga="+wylosowane[1]+"&trzecia="+wylosowane[2]+"&czwarta="+wylosowane[3]+"&piata="+wylosowane[4]+"&szosta="+wylosowane[5], false);
+        xmlhttp.open("GET", "pehap.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6], false);
         xmlhttp.send();
 
 }
@@ -86,8 +70,6 @@ $( document ).ready(function() {
 });
 
 
-
-
 function start() {
 
 /*=====                     ZSUMOWANIE                   =====*/   
@@ -95,12 +77,12 @@ function start() {
 
         for(var i=0;i<losowanie.length;i++){
 
-            suma.push(parseInt(losowanie[i][0]));
             suma.push(parseInt(losowanie[i][1]));
             suma.push(parseInt(losowanie[i][2]));
             suma.push(parseInt(losowanie[i][3]));
             suma.push(parseInt(losowanie[i][4]));
             suma.push(parseInt(losowanie[i][5]));
+            suma.push(parseInt(losowanie[i][6]));
         }
         console.log(suma);
 
@@ -185,16 +167,17 @@ for (var i = 0; i < wytypowane.length ; i++){
 
 var elem = document.getElementById("last_losowanie");
 var button = document.createElement("DIV");
-button.innerHTML = losowanie[losowanie.length-1];
+for (var t=1;t<7;t++) {
+   button.innerHTML += losowanie[losowanie.length-1][t] + "  "; 
+}
 elem.appendChild(button);
 
 
-
-
-
-
-
-
 }
+
+
+
+
+
 
 
