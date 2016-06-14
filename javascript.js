@@ -12,6 +12,7 @@ var y=0;
 var last_losowanie;
 var nr_losowanie;
 var ost_losowanie = document.getElementsByClassName('wynik')[0].getElementsByTagName('td')[1].innerHTML;
+var wytypowane_array = [];
 
 
 function posting() {
@@ -145,6 +146,28 @@ wytypowane.sort(function(a, b)
 });
 
 
+
+
+
+$.post("post_wytypowane.php",
+{
+    wytypowane0: losowanie[losowanie.length-1][0],
+    wytypowane1: wytypowane[0][0],
+    wytypowane2: wytypowane[1][0],
+    wytypowane3: wytypowane[2][0],
+    wytypowane4: wytypowane[3][0],
+    wytypowane5: wytypowane[4][0],
+    wytypowane6: wytypowane[5][0]
+},
+function(data, status){
+    wytypowane_array = data;
+});
+
+
+
+
+
+
 /*=====                 DISPLAY                      =====*/   
 /*=====        wyswietlenie zbiorow w tabeli/DIV        =====*/   
 
@@ -173,8 +196,9 @@ for (var t=1;t<7;t++) {
 elem.appendChild(button);
 
 
-}
+document.getElementById('losowanie_length').innerHTML += losowanie.length;
 
+}
 
 
 

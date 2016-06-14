@@ -36,10 +36,13 @@
 
 <div class="clear"></div>
 
-<div id="last_losowanie">
+<div id="last_losowanie" class="windows">
   Ostatnie losowanie to : <br>
-
 </div>
+<div id="losowanie_length" class="windows">
+  Ilość losowań w bazie : <br>
+</div>
+
 
 
 
@@ -47,11 +50,13 @@
   </div>
 </div>
 
-
-
-
-
-<div id="content"> <?php include 'include.php';?></div>
+<div id="content">
+  <?php 
+  $url = 'http://www.lotto.pl/lotto/wyniki-i-wygrane';
+  $content = file_get_contents($url);
+  echo $content;
+  ?>
+</div>
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="javascript.js"></script>
