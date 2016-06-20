@@ -7,14 +7,11 @@
     <title>Lotto</title>
 
     <link href="style.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="http://lottocdn.directtraffic.pl/sites/default/files/basic_favicon_1.ico" type="image/x-icon" /> 
   </head>
   <body>
 
 
-
-<big><b><?php include 'connect.php';?> <br> <br></b></big>
 
 
 
@@ -34,16 +31,18 @@
         </div>
       </div>
 
-<div class="clear"></div>
+      <div class="clear"></div>
 
-<div id="last_losowanie" class="windows">
-  Ostatnie losowanie to : <br>
-</div>
-<div id="losowanie_length" class="windows">
-  Ilość losowań w bazie : <br>
-</div>
+      <div id="last_losowanie" class="windows">
+        Ostatnie losowanie to : <br>
+      </div>
+      <div id="losowanie_length" class="windows">
+        Ilość losowań w bazie : <br>
+      </div>
 
-
+      <div id="podsumowanie" class="col-md-6">
+        
+      </div>
 
 
     </div>
@@ -60,5 +59,7 @@
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="javascript.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
   </body>
 </html>

@@ -15,6 +15,9 @@ h1 {
 }
 #content {
     visibility: hidden !important;
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
 }
 
 
@@ -57,5 +60,24 @@ border: 3px solid #FFFFFF;
     margin-top: 12px;
     color: #FFFFFF;
 }
+
+
+.ball {
+  float: left;
+  margin-right: 10px;
+  border-radius:10px;
+  width: 30px;
+}
+.repeat {
+  background: #F00;
+  color: #FFF;
+}
+
+
+
+
+
+
+
 
 
