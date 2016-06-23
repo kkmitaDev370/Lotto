@@ -10,9 +10,12 @@
     <link rel="shortcut icon" href="http://lottocdn.directtraffic.pl/sites/default/files/basic_favicon_1.ico" type="image/x-icon" /> 
   </head>
   <body>
-
-
-
+  
+<!-- 
+<?php
+include 'content.php';
+ ?>
+ -->
 
 
 <div class="container">
@@ -49,12 +52,20 @@
   </div>
 </div>
 
-<div id="content">
+
+
+
+
+
+ <div id="content">
   <?php 
   $url = 'http://www.lotto.pl/lotto/wyniki-i-wygrane';
   $content = file_get_contents($url);
   echo $content;
   ?>
+</div> 
+
+<div id="popup" onclick="hide(this)">
 </div>
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -63,3 +74,8 @@
 
   </body>
 </html>
+
+
+
+
+

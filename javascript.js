@@ -259,7 +259,10 @@ function display() {
             for (var x=1;x<7;x++) {
                 var div = document.createElement('div');
                 div.className = "ball";
+                div.style.backgroundColor = check_number_repetition(losowanie[y][x]);
+                div.title = zliczenie[losowanie[y][x]];
                 div.innerHTML += losowanie[y][x];
+                div.onclick = function() { popup(this.title,this.innerHTML); };
                 td_1.appendChild(div)
             }
             var td_2 = document.createElement('td');
@@ -283,7 +286,73 @@ function display() {
     elem.appendChild(table);
 
 
+
+
 }
+
+
+
+
+function check_number_repetition(num){
+    var max = check_max();
+    if(zliczenie[num] == max-6)
+        return "#d2ff4d";
+    if(zliczenie[num] == max-5)
+        return "#33cc33";
+    if(zliczenie[num] == max-4)
+        return "#4da6ff";
+    if(zliczenie[num] == max-3)
+        return "#4d4dff";
+    if(zliczenie[num] == max-2)
+        return "#ff4da6";
+    if(zliczenie[num] >= max-1)
+        return "#ff4d4d";
+
+}
+
+
+function check_max() {
+    var max = 0;
+    for(var i=1;i<50;i++){
+        if (zliczenie[i] > max)
+            max = zliczenie[i];
+    }
+    return max;
+}
+
+
+
+
+function popup(count,content) {
+
+           
+
+
+            var x = event.clientX;
+            var y = event.clientY;
+            var coords = "X coords: " + x + ", Y coords: " + y;
+
+            x -= 30;
+        
+
+            var popup = document.getElementById('popup');
+            popup.style.top = y+"px";
+            popup.style.left = x+"px";
+            popup.style.display = "block";
+            popup.innerHTML = content+" wystąpiło/ła "+count+" razy";
+}
+
+ function hide(el){
+                el.style.display="none";
+}
+
+
+
+
+
+
+
+
 
 
 
