@@ -291,8 +291,6 @@ function display() {
 }
 
 
-
-
 function check_number_repetition(num){
     var max = check_max();
     if(zliczenie[num] == max-6)
@@ -332,7 +330,7 @@ function popup(count,content) {
             var y = event.clientY;
             var coords = "X coords: " + x + ", Y coords: " + y;
 
-            x -= 30;
+            x += 10;
         
 
             var popup = document.getElementById('popup');
@@ -342,10 +340,10 @@ function popup(count,content) {
             popup.innerHTML = content+" wystąpiło/ła "+count+" razy";
 }
 
- function hide(el){
-                el.style.display="none";
-}
 
+function hide(el){
+    el.style.display="none";
+}
 
 
 

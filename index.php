@@ -8,6 +8,7 @@
 
     <link href="style.css" rel="stylesheet">
     <link rel="shortcut icon" href="http://lottocdn.directtraffic.pl/sites/default/files/basic_favicon_1.ico" type="image/x-icon" /> 
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   </head>
   <body>
   
@@ -16,6 +17,8 @@
 include 'content.php';
  ?>
  -->
+
+
 
 
 <div class="container">
@@ -33,26 +36,66 @@ include 'content.php';
         <div id="display_losy_ile">
         </div>
       </div>
-
       <div class="clear"></div>
 
-      <div id="last_losowanie" class="windows">
-        Ostatnie losowanie to : <br>
-      </div>
-      <div id="losowanie_length" class="windows">
-        Ilość losowań w bazie : <br>
+
+      <div class="row">
+
+
+
+        <div class="col-md-6">
+          <div class="tabelka">
+              <div id="podsumowanie"></div>
+
+              <div class="white_shadow"></div>
+          </div>
+              <div class="clear"></div>
+
+          <div id="legenda">
+            <span>Legenda: <small>(powtórzenia liczb)</small> </span>
+            <div id="wykres"></div>
+            <span>Rzadko</span><span>Często</span>
+          </div>
+
+        </div>
+
+
+
+
+
+        <div class="col-md-2">
+
+              <div id="last_losowanie" class="windows">
+                Ostatnie losowanie to : <br>
+              </div>
+              <div id="losowanie_length" class="windows">
+                Ilość losowań w bazie : <br>
+              </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+          
+        </div>
+
+
+
       </div>
 
-      <div id="podsumowanie" class="col-md-6">
-        
-      </div>
+
+
+
+
+     
+
+
+
 
 
     </div>
   </div>
 </div>
-
-
 
 
 
@@ -64,12 +107,13 @@ include 'content.php';
   echo $content;
   ?>
 </div> 
+<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="javascript.js"></script>
+
 
 <div id="popup" onclick="hide(this)">
 </div>
 
-<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script src="javascript.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 
   </body>

@@ -4,6 +4,7 @@
 }
 body {
     font-size: 20px !important;
+    font-family: 'Alegreya Sans', sans-serif !important;
 }
 .clear {
   clear: both;
@@ -51,7 +52,7 @@ border: 3px solid #FFFFFF;
 
 }
 .windows {
-    width: 22%;
+
     text-align: center;
     border: 3px solid #FFFFFF;
     background: linear-gradient(to right,#049164,#08551C);
@@ -76,13 +77,27 @@ border: 3px solid #FFFFFF;
   color: #FFF;
 }
 
-
+.tabelka {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+.white_shadow {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+}
 #podsumowanie table tr td {
   border-left: none;
   border-right: none;
 }
 
-
+.puste {
+  height: 72px;
+  width: 100%;
+}
 
 #popup {
   position: absolute;
@@ -98,6 +113,35 @@ border: 3px solid #FFFFFF;
   border: 1px solid grey;
   border-radius: 5px;
   transition: all .5s;
+  cursor: pointer;
 }
+
+
+#legenda {
+  width: 173px;
+  font-size: 15px;
+}
+#legenda #wykres {
+  background: linear-gradient(to right, #d2ff4d, #33cc33, #4da6ff, #4d4dff, #ff4da6, #ff4d4d);
+  width: 100%;
+  height: 8px;
+  overflow: auto;
+  border-radius: 2px;
+}
+#legenda span:nth-child(3) {
+  float: left;
+}
+#legenda span:nth-child(4) {
+  float: right;
+}
+
+
+
+
+
+
+
+
+
 
 
