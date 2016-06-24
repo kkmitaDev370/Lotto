@@ -7,14 +7,17 @@ $n = 0;
 
 
 
-$sql = "SELECT ID, pierwsza, druga, trzecia, czwarta, piata, szosta FROM losy";
+$sql = "SELECT ID, pierwsza, druga, trzecia, czwarta, piata, szosta, data FROM losy";
 $result = $conn->query($sql);
+
 
 
 if ($result->num_rows > 0) {
 
      while($row = $result->fetch_assoc()) {
 
+		$timestamp = strtotime($row['data']);
+		
 		$data_array[$n][0] = $row['ID'];
 		$data_array[$n][1] = $row['pierwsza'];
 		$data_array[$n][2] = $row['druga'];
@@ -22,6 +25,7 @@ if ($result->num_rows > 0) {
 		$data_array[$n][4] = $row['czwarta'];
 		$data_array[$n][5] = $row['piata'];
 		$data_array[$n][6] = $row['szosta'];
+		$data_array[$n][7] = date('d.m', $timestamp);
 
 		$n++;
       	

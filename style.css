@@ -1,3 +1,9 @@
+
+::-webkit-scrollbar {width: 8px;height:10px}
+::-webkit-scrollbar-track {-webkit-border-radius: 10px;background-color:#000;}
+::-webkit-scrollbar-thumb {-webkit-border-radius: 10px;border-radius: 10px;background:#00a0ba; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}
+
+
 * {
   padding: 0;
   margin: 0;
@@ -9,8 +15,6 @@ body {
 .clear {
   clear: both;
 }
-
-
 h1 {
   text-align: center;
 }
@@ -23,14 +27,18 @@ h1 {
 
 
 
-table {
+
+#podsumowanie table>tbody>tr>td {
+  padding: 5px !important;
   text-align: center;
 }
-table td {
-  border: 1px solid black;
+#podsumowanie table tbody tr td div {
+      display: inline-block;
 }
+#podsumowanie table tbody tr td:first-child div:first-child {
+  padding-right: 10px;
 
-
+}
 
 .show_losy div {
     font-family: inherit;
@@ -64,13 +72,17 @@ border: 3px solid #FFFFFF;
 
 
 .ball {
-  float: left;
-  background: #969696;
-  color: #FFF;
-  margin-right: 10px;
-  border-radius:10px;
-  width: 30px;
-  cursor: pointer;
+    background: #969696;
+    color: #FFF;
+    margin-right: 9px;
+    border-radius: 10px;
+    width: 32px;
+    cursor: pointer;
+    border: 1px solid #FFF;
+    transition: all .2s;
+}
+.losowanie .ball:hover {
+  border: 1px solid #6b6b6b;
 }
 .repeat {
   background: #d29626;
@@ -82,12 +94,15 @@ border: 3px solid #FFFFFF;
   overflow-y: scroll;
 }
 .white_shadow {
+  display: block;
   position: absolute;
   bottom: 50px;
   left: 0;
-  height: 100px;
+  height: 30px;
   width: 100%;
   background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+  transition: all .5s;
+
 }
 #podsumowanie table tr td {
   border-left: none;

@@ -43,8 +43,8 @@ include 'content.php';
 
 
 
-        <div class="col-md-6">
-          <div class="tabelka">
+        <div class="col-md-7">
+          <div class="tabelka" onscroll="scroll()">
               <div id="podsumowanie"></div>
 
               <div class="white_shadow"></div>
@@ -90,9 +90,6 @@ include 'content.php';
      
 
 
-
-
-
     </div>
   </div>
 </div>
@@ -111,7 +108,7 @@ include 'content.php';
 <script src="javascript.js"></script>
 
 
-<div id="popup" onclick="hide(this)">
+<div id="popup">
 </div>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">

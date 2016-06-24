@@ -12,8 +12,14 @@ var y=0;
 var last_losowanie;
 var nr_losowanie;
 var ost_losowanie = document.getElementsByClassName('wynik')[0].getElementsByTagName('td')[1].innerHTML;
+var ost_data;
 var wytypowane_array = [];
+var h=0;
+var data="";
 
+function hide(el){
+    el.style.display="none";
+}
 
 
 /*=====                     POBRANIE                   =====*/  
@@ -44,10 +50,16 @@ function head() {
 
             wylosowane = [];
 
+            var parent = getParents( document.getElementsByClassName(nr_losowanie+'-rosnaco')[0] );
+            data = parent[1].getElementsByTagName('td')[2].innerHTML;
+            data = reduce_date(data);
+            console.log(data);
+
             for(var g=1; g<7; g++) {
-               wylosowane[g] = document.getElementsByClassName(nr_losowanie+'-rosnaco')[y].getElementsByClassName('wynik_lotto')[g-1].innerHTML;
+               wylosowane[g] = document.getElementsByClassName(nr_losowanie+'-rosnaco')[0].getElementsByClassName('wynik_lotto')[g-1].innerHTML;
             }
             wylosowane[0] = nr_losowanie;
+            wylosowane[7] = data;
 
             console.log("wylosowane = "+wylosowane);
             losowanie.push(wylosowane);
@@ -68,10 +80,10 @@ function post_losy() {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function(data) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-               
+               console.log("xmlhttp.responseText= "+xmlhttp.responseText);
             }
         };
-        xmlhttp.open("GET", "pehap.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6], false);
+        xmlhttp.open("GET", "pehap.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6]+"&data="+data, false);
         xmlhttp.send();
 
 }
@@ -247,7 +259,7 @@ function display() {
 
     var tbdy = document.createElement('tbody');
 
-        for (var i = 0; i < wytypowane_array.length-1 ; i++){
+        for (var i = wytypowane_array.length-2; i >= 0 ; i--){
 
             var y = 0;
             while (losowanie[y][0] != wytypowane_array[i][0]) {
@@ -256,6 +268,10 @@ function display() {
 
             var tr = document.createElement('tr');
             var td_1 = document.createElement('td');
+            td_1.className += " losowanie";
+            var div = document.createElement('div');
+            div.innerHTML = losowanie[y][7];
+            td_1.appendChild(div);
             for (var x=1;x<7;x++) {
                 var div = document.createElement('div');
                 div.className = "ball";
@@ -265,7 +281,9 @@ function display() {
                 div.onclick = function() { popup(this.title,this.innerHTML); };
                 td_1.appendChild(div)
             }
+
             var td_2 = document.createElement('td');
+            td_2.className += " wytypowane";
             for (var z=1;z<7;z++) {
                 var div_2 = document.createElement('div');
                 for(var w=1;w<7;w++){
@@ -284,12 +302,10 @@ function display() {
     table.appendChild(thdh);
     table.appendChild(tbdy);
     elem.appendChild(table);
-
-
-
-
 }
 
+
+/*===========          FUNCTIONs          ============*/
 
 function check_number_repetition(num){
     var max = check_max();
@@ -305,10 +321,7 @@ function check_number_repetition(num){
         return "#ff4da6";
     if(zliczenie[num] >= max-1)
         return "#ff4d4d";
-
 }
-
-
 function check_max() {
     var max = 0;
     for(var i=1;i<50;i++){
@@ -317,22 +330,50 @@ function check_max() {
     }
     return max;
 }
+function getParents(el) {
+    var parents = [];
+    var p = el.parentNode;
+    while (p !== null) {
+        var o = p;
+        parents.push(o);
+        p = o.parentNode;
+    }
+    return parents; // returns an Array []
+}
+function reduce_date(data) {
+var new_date = "";
 
+
+
+
+/*    for(var i=0;i<8;i++){
+        new_date += data.charAt(i)
+    }
+    return new_date;
+*/
+    new_date += "2";
+    new_date += "0";
+    new_date += data.charAt(6);
+    new_date += data.charAt(7);
+    new_date += data.charAt(3);
+    new_date += data.charAt(4);
+    new_date += data.charAt(0);
+    new_date += data.charAt(1);
+
+
+
+
+ return new_date;
+}
+
+/*===========      //    FUNCTIONs          ============*/
 
 
 
 function popup(count,content) {
-
-           
-
-
             var x = event.clientX;
             var y = event.clientY;
-            var coords = "X coords: " + x + ", Y coords: " + y;
-
             x += 10;
-        
-
             var popup = document.getElementById('popup');
             popup.style.top = y+"px";
             popup.style.left = x+"px";
@@ -340,27 +381,32 @@ function popup(count,content) {
             popup.innerHTML = content+" wystąpiło/ła "+count+" razy";
 }
 
+var tabelka = document.getElementsByClassName('tabelka')[0];
+var popup_hover = false;
 
-function hide(el){
-    el.style.display="none";
+function scroll() {
+    document.getElementsByClassName('white_shadow')[0].style.height="30px";
+    if (tabelka.offsetHeight + tabelka.scrollTop >= tabelka.scrollHeight) {
+        document.getElementsByClassName('white_shadow')[0].style.height="0px";
+    }
 }
 
 
+var tabelka = document.getElementsByClassName('tabelka')[0];
 
+function scroll() {
+    document.getElementsByClassName('white_shadow')[0].style.height="30px";
+    if (tabelka.offsetHeight + tabelka.scrollTop >= tabelka.scrollHeight) {
+        document.getElementsByClassName('white_shadow')[0].style.height="0px";
+    }
+}
+tabelka.addEventListener("mouseleave", function( event ) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    document.getElementById('popup').style.display="none";
+    $("#popup").hover(function() { 
+        document.getElementById('popup').style.display="block";
+    });
+});
 
 
 
