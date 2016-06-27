@@ -12,11 +12,7 @@
   </head>
   <body>
   
-<!-- 
-<?php
-include 'content.php';
- ?>
- -->
+
 
 
 
@@ -44,7 +40,7 @@ include 'content.php';
 
 
         <div class="col-md-7">
-          <div class="tabelka" onscroll="scroll()">
+          <div class="tabelka">
               <div id="podsumowanie"></div>
 
               <div class="white_shadow"></div>
@@ -85,7 +81,19 @@ include 'content.php';
 
 
 
+<!--   <?php
+include 'content.php';
+ ?>
+ -->
 
+ 
+ <div id="content">
+ <?php 
+ $url = 'http://www.lotto.pl/lotto/wyniki-i-wygrane';
+ $content = file_get_contents($url);
+ echo $content;
+ ?>
+</div> 
 
      
 
@@ -97,14 +105,9 @@ include 'content.php';
 
 
 
- <div id="content">
-  <?php 
-  $url = 'http://www.lotto.pl/lotto/wyniki-i-wygrane';
-  $content = file_get_contents($url);
-  echo $content;
-  ?>
-</div> 
-<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+
+ <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="javascript.js"></script>
 
 

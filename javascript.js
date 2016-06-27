@@ -39,8 +39,6 @@ $( document ).ready(function() {
 });
 
 
-
-
 function head() {
 
     nr_losowanie = parseInt(last_losowanie[0]);
@@ -59,7 +57,7 @@ function head() {
                wylosowane[g] = document.getElementsByClassName(nr_losowanie+'-rosnaco')[0].getElementsByClassName('wynik_lotto')[g-1].innerHTML;
             }
             wylosowane[0] = nr_losowanie;
-            wylosowane[7] = data;
+            wylosowane[7] = simply_reduce_data(data);
 
             console.log("wylosowane = "+wylosowane);
             losowanie.push(wylosowane);
@@ -83,20 +81,10 @@ function post_losy() {
                console.log("xmlhttp.responseText= "+xmlhttp.responseText);
             }
         };
-        xmlhttp.open("GET", "pehap.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6]+"&data="+data, false);
+        xmlhttp.open("GET", "post.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6]+"&data="+data, false);
         xmlhttp.send();
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 function body() {
@@ -342,15 +330,6 @@ function getParents(el) {
 }
 function reduce_date(data) {
 var new_date = "";
-
-
-
-
-/*    for(var i=0;i<8;i++){
-        new_date += data.charAt(i)
-    }
-    return new_date;
-*/
     new_date += "2";
     new_date += "0";
     new_date += data.charAt(6);
@@ -359,16 +338,17 @@ var new_date = "";
     new_date += data.charAt(4);
     new_date += data.charAt(0);
     new_date += data.charAt(1);
-
-
-
-
  return new_date;
 }
-
-/*===========      //    FUNCTIONs          ============*/
-
-
+function simply_reduce_data(data) {
+    var red_data = "";
+    red_data += data.charAt(6);
+    red_data += data.charAt(7);
+    red_data += ".";
+    red_data += data.charAt(4);
+    red_data += data.charAt(5);
+return red_data;
+}
 
 function popup(count,content) {
             var x = event.clientX;
@@ -381,27 +361,12 @@ function popup(count,content) {
             popup.innerHTML = content+" wystąpiło/ła "+count+" razy";
 }
 
-var tabelka = document.getElementsByClassName('tabelka')[0];
-var popup_hover = false;
 
-function scroll() {
-    document.getElementsByClassName('white_shadow')[0].style.height="30px";
-    if (tabelka.offsetHeight + tabelka.scrollTop >= tabelka.scrollHeight) {
-        document.getElementsByClassName('white_shadow')[0].style.height="0px";
-    }
-}
+/*===========      ADD EVENT LISTENER          ============*/
 
 
 var tabelka = document.getElementsByClassName('tabelka')[0];
-
-function scroll() {
-    document.getElementsByClassName('white_shadow')[0].style.height="30px";
-    if (tabelka.offsetHeight + tabelka.scrollTop >= tabelka.scrollHeight) {
-        document.getElementsByClassName('white_shadow')[0].style.height="0px";
-    }
-}
 tabelka.addEventListener("mouseleave", function( event ) {
-
     document.getElementById('popup').style.display="none";
     $("#popup").hover(function() { 
         document.getElementById('popup').style.display="block";
@@ -409,4 +374,5 @@ tabelka.addEventListener("mouseleave", function( event ) {
 });
 
 
+/*===========    //  ADD EVENT LISTENER          ============*/
 

@@ -2,9 +2,7 @@
 
 include 'connect.php';
 
-/*
-$test = $_REQUEST["data"];
-*/
+
 $ID = $_REQUEST["ID"];
 $pierwsza = $_REQUEST["pierwsza"];
 $druga = $_REQUEST["druga"];
@@ -15,7 +13,6 @@ $szosta = $_REQUEST["szosta"];
 $data = $_REQUEST["data"];
 
 
-echo "data= ".$data;
 
 
 $sql = "INSERT INTO losy (ID, pierwsza, druga, trzecia, czwarta, piata, szosta, data)
@@ -26,8 +23,6 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
-
-
 
 
 
