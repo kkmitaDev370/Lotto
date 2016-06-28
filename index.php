@@ -59,7 +59,7 @@
 
 
 
-        <div class="col-md-2">
+        <div class="col-md-3">
 
               <div id="last_losowanie" class="windows">
                 Ostatnie losowanie to : <br>
@@ -71,9 +71,7 @@
         </div>
 
 
-        <div class="col-md-4">
-          
-        </div>
+
 
 
 
