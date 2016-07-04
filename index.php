@@ -13,15 +13,10 @@
   <body>
   
 
-
-
-
-
 <div class="container">
   <div class="row">
     <div class="col-md-12">
       
-
 
       <h1>Losowanie na dziś to: </h1>
       <br>
@@ -36,8 +31,6 @@
 
 
       <div class="row">
-
-
 
         <div class="col-md-7">
           <div class="tabelka">
@@ -55,10 +48,6 @@
 
         </div>
 
-
-
-
-
         <div class="col-md-3">
 
               <div id="last_losowanie" class="windows">
@@ -70,30 +59,7 @@
 
         </div>
 
-
-
-
-
-
       </div>
-
-
-
-<!--   <?php
-include 'content.php';
- ?>
- -->
-
- 
- <div id="content">
- <?php 
- $url = 'http://www.lotto.pl/lotto/wyniki-i-wygrane';
- $content = file_get_contents($url);
- echo $content;
- ?>
-</div> 
-
-     
 
 
     </div>
@@ -102,16 +68,11 @@ include 'content.php';
 
 
 
+    <div id="content"><?php include 'php/content.php';?></div> 
+    <div id="popup"></div>
 
-
-
- <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script src="javascript.js"></script>
-
-
-<div id="popup">
-</div>
-
+    <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="javascript.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 
   </body>

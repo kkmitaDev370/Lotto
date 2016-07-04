@@ -150,7 +150,9 @@ border: 3px solid #FFFFFF;
   float: right;
 }
 
-
+.unselect {
+  opacity: .3;
+}
 
 
 

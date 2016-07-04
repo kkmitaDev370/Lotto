@@ -17,6 +17,7 @@ var wytypowane_array = [];
 var h=0;
 var data="";
 
+
 function hide(el){
     el.style.display="none";
 }
@@ -26,7 +27,7 @@ function hide(el){
 
 $( document ).ready(function() {
    
-       $.getJSON('get.php', function(data) {
+       $.getJSON('php/get.php', function(data) {
 
             losowanie = data;
             last_losowanie = losowanie[losowanie.length-1];
@@ -81,7 +82,7 @@ function post_losy() {
                console.log("xmlhttp.responseText= "+xmlhttp.responseText);
             }
         };
-        xmlhttp.open("GET", "post.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6]+"&data="+data, false);
+        xmlhttp.open("GET", "php/post.php?ID="+wylosowane[0]+"&pierwsza="+wylosowane[1]+"&druga="+wylosowane[2]+"&trzecia="+wylosowane[3]+"&czwarta="+wylosowane[4]+"&piata="+wylosowane[5]+"&szosta="+wylosowane[6]+"&data="+data, false);
         xmlhttp.send();
 
 }
@@ -175,7 +176,7 @@ function body() {
 
     console.log("wytypowane= "+wytypowane);
 
-    $.post("post_wytypowane.php",
+    $.post("php/post_wytypowane.php",
     {
         wytypowane0: nr_losowanie,
         wytypowane1: wytypowane[0][0],
@@ -192,7 +193,7 @@ console.log("----------------------// BODY -----------------------------");
 
 
 function footer () {
-    $.getJSON('get_wytypowane.php', function(data) {
+    $.getJSON('php/get_wytypowane.php', function(data) {
         wytypowane_array = data;
         display();
     });
@@ -359,6 +360,20 @@ function popup(count,content) {
             popup.style.left = x+"px";
             popup.style.display = "block";
             popup.innerHTML = content+" wystąpiło/ła "+count+" razy";
+
+
+            for (var y=0;y<document.getElementsByClassName(' losowanie').length;y++){
+                var ele = document.getElementsByClassName('losowanie')[y];
+                for (var i=0;i<ele.getElementsByClassName('ball').length;i++){
+                    var elem = ele.getElementsByClassName('ball')[i];
+                    var int = elem.innerHTML;
+                    if(content == int)
+                        elem.className = "ball select"; 
+                    else
+                        elem.className = "ball unselect"; 
+                }
+            }
+            
 }
 
 
@@ -371,6 +386,13 @@ tabelka.addEventListener("mouseleave", function( event ) {
     $("#popup").hover(function() { 
         document.getElementById('popup').style.display="block";
     });
+
+    for (var i=0;i<document.getElementsByClassName('ball').length;i++){
+        if(document.getElementsByClassName('ball')[i].className == "ball unselect") {
+            document.getElementsByClassName('ball')[i].className = "ball";
+        }
+    }
+
 });
 
 
