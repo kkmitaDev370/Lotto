@@ -352,15 +352,6 @@ return red_data;
 }
 
 function popup(count,content) {
-            var x = event.clientX;
-            var y = event.clientY;
-            x += 10;
-            var popup = document.getElementById('popup');
-            popup.style.top = y+"px";
-            popup.style.left = x+"px";
-            popup.style.display = "block";
-            popup.innerHTML = content+" wystąpiło/ła "+count+" razy";
-
 
             for (var y=0;y<document.getElementsByClassName(' losowanie').length;y++){
                 var ele = document.getElementsByClassName('losowanie')[y];
@@ -375,11 +366,23 @@ function popup(count,content) {
             }
             
 }
+function change_content(id) {
+    if (id==1) {
+        document.getElementById('boxes').style.display="none";
+        document.getElementById('pokaz').style.display="block";
+    }       
+}
+function pokaz_liczbe() {
 
-
+        document.getElementsByClassName('tabelka')[0].style.height="calc(100vh - 288px)";
+        var liczba = document.getElementById('liczba_pokaz').value;
+        popup(zliczenie[liczba],liczba);
+        document.getElementsByClassName('liczba')[0].innerHTML = liczba;
+        document.getElementsByClassName('ile')[0].innerHTML = zliczenie[liczba];
+}
 /*===========      ADD EVENT LISTENER          ============*/
 
-
+/*
 var tabelka = document.getElementsByClassName('tabelka')[0];
 tabelka.addEventListener("mouseleave", function( event ) {
     document.getElementById('popup').style.display="none";
@@ -394,7 +397,7 @@ tabelka.addEventListener("mouseleave", function( event ) {
     }
 
 });
-
+*/
 
 /*===========    //  ADD EVENT LISTENER          ============*/
 
