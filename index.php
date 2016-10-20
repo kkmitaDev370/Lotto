@@ -52,7 +52,7 @@
           </div>
 
         </div>
-        <div class="col-md-5 boxes" id="boxes" style="display:none">
+        <div class="col-md-5 boxes" id="boxes">
           <div class="boxs">
             <div class="box_1" onclick="change_content(1)"><div>Pokaz <br><small> liczby</small></div></div>
             <div class="box_2"><div>Sprawdz <br>  <small>swoje losowanie</small></div></div>
@@ -60,17 +60,25 @@
           </div>
         </div>
 
-        <div class="col-md-5" id="pokaz">
+        <div class="col-md-5" id="pokaz" style="display:none">
           <h3>Dowiedz sie troche o liczbach w lotto !</h3>
           <p>Wybierz liczbe:</p>
-          <input type="text" id="liczba_pokaz"><button type="submit" class="btn btn-primary" onclick="pokaz_liczbe()">Pokaż</button>
-          <p>Ze wszystkich zanotowanych losowan <span class="liczba"></span> jest <span class="ile"></span></p>
 
 
 
           <div class="bile">
-            <div class="bila">1</div><div class="bila">2</div><div class="bila">3</div><div class="bila">4</div><div class="bila">5</div><div class="bila">6</div><div class="bila">7</div><div class="bila">8</div><div class="bila">9</div><div class="bila">10</div><div class="bila">11</div><div class="bila">12</div><div class="bila">13</div><div class="bila">14</div><div class="bila">15</div><div class="bila">16</div><div class="bila">17</div><div class="bila">18</div><div class="bila">19</div><div class="bila">20</div><div class="bila">21</div><div class="bila">22</div><div class="bila">23</div><div class="bila">24</div><div class="bila">25</div><div class="bila">26</div><div class="bila">27</div><div class="bila">28</div><div class="bila">29</div><div class="bila">30</div><div class="bila">31</div><div class="bila">32</div><div class="bila">33</div><div class="bila">34</div><div class="bila">35</div><div class="bila">36</div><div class="bila">37</div><div class="bila">38</div><div class="bila">39</div><div class="bila">40</div><div class="bila">41</div><div class="bila">42</div><div class="bila">43</div><div class="bila">44</div><div class="bila">45</div><div class="bila">46</div><div class="bila">47</div><div class="bila">48</div><div class="bila">49</div>
+            <div class="bila" onclick="pokaz_liczbe(this)">1</div><div class="bila" onclick="pokaz_liczbe(this)">2</div><div class="bila" onclick="pokaz_liczbe(this)">3</div><div class="bila" onclick="pokaz_liczbe(this)">4</div><div class="bila" onclick="pokaz_liczbe(this)">5</div><div class="bila" onclick="pokaz_liczbe(this)">6</div><div class="bila" onclick="pokaz_liczbe(this)">7</div><div class="bila" onclick="pokaz_liczbe(this)">8</div><div class="bila" onclick="pokaz_liczbe(this)">9</div><div class="bila" onclick="pokaz_liczbe(this)">10</div><div class="bila" onclick="pokaz_liczbe(this)">11</div><div class="bila" onclick="pokaz_liczbe(this)">12</div><div class="bila" onclick="pokaz_liczbe(this)">13</div><div class="bila" onclick="pokaz_liczbe(this)">14</div><div class="bila" onclick="pokaz_liczbe(this)">15</div><div class="bila" onclick="pokaz_liczbe(this)">16</div><div class="bila" onclick="pokaz_liczbe(this)">17</div><div class="bila" onclick="pokaz_liczbe(this)">18</div><div class="bila" onclick="pokaz_liczbe(this)">19</div><div class="bila" onclick="pokaz_liczbe(this)">20</div><div class="bila" onclick="pokaz_liczbe(this)">21</div><div class="bila" onclick="pokaz_liczbe(this)">22</div><div class="bila" onclick="pokaz_liczbe(this)">23</div><div class="bila" onclick="pokaz_liczbe(this)">24</div><div class="bila" onclick="pokaz_liczbe(this)">25</div><div class="bila" onclick="pokaz_liczbe(this)">26</div><div class="bila" onclick="pokaz_liczbe(this)">27</div><div class="bila" onclick="pokaz_liczbe(this)">28</div><div class="bila" onclick="pokaz_liczbe(this)">29</div><div class="bila" onclick="pokaz_liczbe(this)">30</div><div class="bila" onclick="pokaz_liczbe(this)">31</div><div class="bila" onclick="pokaz_liczbe(this)">32</div><div class="bila" onclick="pokaz_liczbe(this)">33</div><div class="bila" onclick="pokaz_liczbe(this)">34</div><div class="bila" onclick="pokaz_liczbe(this)">35</div><div class="bila" onclick="pokaz_liczbe(this)">36</div><div class="bila" onclick="pokaz_liczbe(this)">37</div><div class="bila" onclick="pokaz_liczbe(this)">38</div><div class="bila" onclick="pokaz_liczbe(this)">39</div><div class="bila" onclick="pokaz_liczbe(this)">40</div><div class="bila" onclick="pokaz_liczbe(this)">41</div><div class="bila" onclick="pokaz_liczbe(this)">42</div><div class="bila" onclick="pokaz_liczbe(this)">43</div><div class="bila" onclick="pokaz_liczbe(this)">44</div><div class="bila" onclick="pokaz_liczbe(this)">45</div><div class="bila" onclick="pokaz_liczbe(this)">46</div><div class="bila" onclick="pokaz_liczbe(this)">47</div><div class="bila" onclick="pokaz_liczbe(this)">48</div><div class="bila" onclick="pokaz_liczbe(this)">49</div>
           </div>
+
+          <div class="clear"></div>
+
+          <div id="opisz">
+            <div>Ze wszystkich zanotowanych losowan</div>
+            <div class="liczba"></div>
+            <div>jest</div>
+            <div class="ile"></div>
+          </div>
+
         </div>
 
 

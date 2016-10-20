@@ -372,10 +372,10 @@ function change_content(id) {
         document.getElementById('pokaz').style.display="block";
     }       
 }
-function pokaz_liczbe() {
-
+function pokaz_liczbe(elem) {
         document.getElementsByClassName('tabelka')[0].style.height="calc(100vh - 288px)";
-        var liczba = document.getElementById('liczba_pokaz').value;
+        document.getElementById('opisz').style.height="100%";
+        var liczba = elem.innerHTML;
         popup(zliczenie[liczba],liczba);
         document.getElementsByClassName('liczba')[0].innerHTML = liczba;
         document.getElementsByClassName('ile')[0].innerHTML = zliczenie[liczba];
