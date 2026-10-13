@@ -3,6 +3,8 @@ name: fetch results
 on:
   schedule:
     - cron: '0 5 * * *'
+    # Zapas przed losowaniem o 22:00, gdyby poranny run się nie udał.
+    - cron: '0 17 * * *'
   workflow_dispatch:
 
 permissions:
@@ -23,6 +25,11 @@ jobs:
       - run: node scripts/fetch.mjs
       - name: Commit new draws
         run: |
+          # Bez commitów w dni robocze 8:00-16:00 czasu polskiego.
+          if [ "$(TZ=Europe/Warsaw date +%u)" -le 5 ] && [ "$(TZ=Europe/Warsaw date +%H)" -ge 8 ] && [ "$(TZ=Europe/Warsaw date +%H)" -lt 16 ]; then
+            echo "Working hours in Poland, skipping commit"
+            exit 0
+          fi
           git add data
           if git diff --cached --quiet; then
             echo "No new draws"
