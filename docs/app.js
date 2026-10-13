@@ -9,6 +9,7 @@ const $ = (id) => document.getElementById(id);
 const fmtDate = (iso) => iso.split('-').reverse().join('.');
 const pct = (x) => `${(x * 100).toFixed(2).replace('.', ',')}%`;
 const dec = (x, d = 3) => x.toFixed(d).replace('.', ',');
+const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
 
 const balls = (nums, { hit = [], cls = '', sm = false } = {}) =>
   `<span class="balls${sm ? ' sm' : ''}">${nums
@@ -57,11 +58,13 @@ function renderNext() {
   $('next-meta').textContent = saved
     ? `Losowanie nr ${nr}, ${fmtDate(date)} · zapisane ${new Date(saved.createdAt).toLocaleString('pl-PL')}`
     : `Losowanie nr ${nr}, ${fmtDate(date)} · podgląd, job jeszcze nie zapisał typów`;
-  $('next-cards').innerHTML = STRATEGIES.map(
-    (s) => `<div class="card"><h3>${s.name}</h3><p>${s.desc}</p>${
-      picks[s.id] ? balls(picks[s.id]) : '<p>losowane przy zapisie</p>'
-    }</div>`,
-  ).join('');
+  const empty = (s) => (s.manual ? 'jeszcze niewybrany' : 'losowane przy zapisie');
+  $('next-cards').innerHTML = STRATEGIES.map((s) => {
+    const note = saved?.notes?.[s.id];
+    return `<div class="card"><h3>${s.name}</h3><p>${s.desc}</p>${
+      picks[s.id] ? balls(picks[s.id]) : `<p>${empty(s)}</p>`
+    }${note ? `<p class="card-note">${escapeHtml(note)}</p>` : ''}</div>`;
+  }).join('');
 }
 
 function renderRecord() {
@@ -71,11 +74,11 @@ function renderRecord() {
   const pending = predictions.filter((p) => !lottoByNr.has(p.nr));
 
   $('record').innerHTML = STRATEGIES.map((s) => {
-    const hits = settled.map((p) => countHits(p.picks[s.id], p.draw.numbers));
+    const hits = settled.filter((p) => p.picks[s.id]).map((p) => countHits(p.picks[s.id], p.draw.numbers));
     const total = hits.reduce((a, b) => a + b, 0);
     const wins = hits.filter((h) => h >= 3).length;
     return `<div class="card"><h3>${s.name}</h3>
-      <p>${settled.length ? `${settled.length} losowań · średnio ${dec(total / settled.length, 2)} traf.` : 'brak rozliczonych losowań'}</p>
+      <p>${hits.length ? `${hits.length} losowań · średnio ${dec(total / hits.length, 2)} traf.` : 'brak rozliczonych losowań'}</p>
       <p class="big">${total} traf.</p><p>wygrane (3+): ${wins}</p></div>`;
   }).join('');
 
@@ -95,6 +98,7 @@ function renderRecord() {
           : `nr ${p.nr}, ${fmtDate(p.date)}<br><span class="plus">czeka na losowanie</span>`;
         const cells = STRATEGIES.map((s) => {
           const pick = p.picks[s.id];
+          if (!pick) return '<td>–</td>';
           if (!d) return `<td>${balls(pick, { sm: true })}</td>`;
           const h = countHits(pick, d.numbers);
           const plusInfo = pl ? `<br><span class="plus">Plus: ${countHits(pick, pl.numbers)} traf.</span>` : '';
@@ -118,7 +122,7 @@ function renderBacktest() {
   const norm = (d) => d.map((c) => c / bt.draws);
   $('backtest').innerHTML =
     '<thead><tr><th>Strategia</th><th class="num">Śr. trafień</th><th class="num">3+ (wygrana)</th><th class="num">4+</th><th class="num">5+</th></tr></thead><tbody>' +
-    STRATEGIES.filter((s) => s.id !== 'random').map((s) => row(s.name, norm(bt.dist[s.id]))).join('') +
+    STRATEGIES.filter((s) => s.id !== 'random' && !s.manual).map((s) => row(s.name, norm(bt.dist[s.id]))).join('') +
     row('Losowy typ (teoretycznie)', RANDOM_DIST, 'baseline') +
     '</tbody>';
 }

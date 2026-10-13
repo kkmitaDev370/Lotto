@@ -1,7 +1,7 @@
 // Pobiera wyniki Lotto i Lotto Plus z mbnet.com.pl i dopisuje brakujące losowania do data/*.json.
 // Idempotentne: losowania są kluczowane numerem, istniejące rekordy nie są nadpisywane.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { trackerFor, randomPicks, nextDrawDate } from '../docs/strategies.js';
+import { AUTO_IDS, trackerFor, randomPicks, nextDrawDate } from '../docs/strategies.js';
 
 const PREDICTIONS = 'data/predictions.json';
 
@@ -78,14 +78,23 @@ const next = { nr: last.nr + 1, date: nextDrawDate(last.date) };
 const predictions = await readExisting(PREDICTIONS);
 const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Warsaw' });
 
-if (predictions.some((p) => p.nr === next.nr)) {
+// Wpis mógł już powstać z samym własnym typem – wtedy uzupełniamy tylko brakujące strategie automatyczne.
+let entry = predictions.find((p) => p.nr === next.nr);
+const missing = AUTO_IDS.filter((id) => !entry?.picks[id]);
+
+if (!missing.length) {
   console.log(`typy: na losowanie ${next.nr} już są`);
 } else if (next.date < today) {
   // Losowanie prawdopodobnie już się odbyło, a źródło jeszcze go nie ma – typ po fakcie byłby nieuczciwy.
   console.warn(`typy: pomijam losowanie ${next.nr} (${next.date}) – data już minęła`);
 } else {
-  const picks = { ...trackerFor(lotto).picks(), random: randomPicks() };
-  predictions.push({ ...next, createdAt: new Date().toISOString(), picks });
+  if (!entry) {
+    entry = { ...next, createdAt: new Date().toISOString(), picks: {} };
+    predictions.push(entry);
+  }
+  const auto = { ...trackerFor(lotto).picks(), random: randomPicks() };
+  for (const id of missing) entry.picks[id] = auto[id];
+  predictions.sort((a, b) => a.nr - b.nr);
   await writeFile(PREDICTIONS, serialize(predictions));
-  console.log(`typy: losowanie ${next.nr} (${next.date}) ${JSON.stringify(picks)}`);
+  console.log(`typy: losowanie ${next.nr} (${next.date}) ${JSON.stringify(entry.picks)}`);
 }

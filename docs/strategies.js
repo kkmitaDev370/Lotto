@@ -7,7 +7,10 @@ export const STRATEGIES = [
   { id: 'cold', name: 'Zimne', desc: 'najdłużej niewylosowane' },
   { id: 'top', name: 'Najczęstsze', desc: 'najczęstsze w całej historii' },
   { id: 'random', name: 'Losowe', desc: 'czysty przypadek – punkt odniesienia' },
+  { id: 'own', name: 'Własny typ', desc: 'wybierany ręcznie przed losowaniem', manual: true },
 ];
+
+export const AUTO_IDS = ['hot', 'cold', 'top', 'random'];
 
 const NUMBERS = Array.from({ length: 49 }, (_, i) => i + 1);
 
