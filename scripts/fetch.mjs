@@ -1,6 +1,9 @@
 // Pobiera wyniki Lotto i Lotto Plus z mbnet.com.pl i dopisuje brakujące losowania do data/*.json.
 // Idempotentne: losowania są kluczowane numerem, istniejące rekordy nie są nadpisywane.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { trackerFor, randomPicks, nextDrawDate } from '../docs/strategies.js';
+
+const PREDICTIONS = 'data/predictions.json';
 
 const SOURCES = [
   { name: 'lotto', url: 'http://www.mbnet.com.pl/dl.txt', file: 'data/lotto.json' },
@@ -45,6 +48,7 @@ const serialize = (draws) => `[\n${draws.map((d) => '  ' + JSON.stringify(d)).jo
 
 await mkdir('data', { recursive: true });
 
+const merged = {};
 for (const { name, url, file } of SOURCES) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${name}: HTTP ${res.status} dla ${url}`);
@@ -60,9 +64,28 @@ for (const { name, url, file } of SOURCES) {
     }
   }
 
-  const merged = [...byNr.values()].sort((a, b) => a.nr - b.nr);
-  const added = merged.length - existing.length;
-  await writeFile(file, serialize(merged));
-  const last = merged.at(-1);
-  console.log(`${name}: +${added}, razem ${merged.length}, ostatnie ${last.nr} (${last.date}) ${last.numbers.join(',')}`);
+  const draws = [...byNr.values()].sort((a, b) => a.nr - b.nr);
+  merged[name] = draws;
+  await writeFile(file, serialize(draws));
+  const last = draws.at(-1);
+  console.log(`${name}: +${draws.length - existing.length}, razem ${draws.length}, ostatnie ${last.nr} (${last.date}) ${last.numbers.join(',')}`);
+}
+
+// Typy na następne losowanie Lotto – zapisywane przed losowaniem, rozliczane później na stronie.
+const lotto = merged.lotto;
+const last = lotto.at(-1);
+const next = { nr: last.nr + 1, date: nextDrawDate(last.date) };
+const predictions = await readExisting(PREDICTIONS);
+const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Warsaw' });
+
+if (predictions.some((p) => p.nr === next.nr)) {
+  console.log(`typy: na losowanie ${next.nr} już są`);
+} else if (next.date < today) {
+  // Losowanie prawdopodobnie już się odbyło, a źródło jeszcze go nie ma – typ po fakcie byłby nieuczciwy.
+  console.warn(`typy: pomijam losowanie ${next.nr} (${next.date}) – data już minęła`);
+} else {
+  const picks = { ...trackerFor(lotto).picks(), random: randomPicks() };
+  predictions.push({ ...next, createdAt: new Date().toISOString(), picks });
+  await writeFile(PREDICTIONS, serialize(predictions));
+  console.log(`typy: losowanie ${next.nr} (${next.date}) ${JSON.stringify(picks)}`);
 }

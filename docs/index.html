@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lotto statystyki</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Lotto statystyki</h1>
+      <p class="muted" id="status">Wczytywanie danych…</p>
+    </header>
+
+    <section id="next">
+      <h2>Typy na następne losowanie</h2>
+      <p class="muted" id="next-meta"></p>
+      <div class="cards" id="next-cards"></div>
+    </section>
+
+    <section>
+      <h2>Rozliczenie typów</h2>
+      <p class="muted">Typy zapisywane automatycznie przed każdym losowaniem i sprawdzane po nim.</p>
+      <div class="cards" id="record"></div>
+      <div class="table-wrap"><table id="history"></table></div>
+    </section>
+
+    <section>
+      <h2>Czy któraś strategia działa? Test na historii</h2>
+      <p class="muted" id="backtest-meta"></p>
+      <div class="table-wrap"><table id="backtest"></table></div>
+      <p class="note">Losowania są od siebie niezależne, więc żadna strategia nie zmienia szans – wyniki wszystkich krążą wokół wartości dla losowego typu. Typy to zabawa, nie sposób na wygraną.</p>
+    </section>
+
+    <section>
+      <h2>Częstość liczb</h2>
+      <div class="controls">
+        <div class="seg" id="freq-range">
+          <button data-v="all" aria-pressed="true">Cała historia</button>
+          <button data-v="500">Ostatnie 500</button>
+          <button data-v="100">Ostatnie 100</button>
+        </div>
+        <div class="seg" id="freq-sort">
+          <button data-v="nr" aria-pressed="true">Wg liczby</button>
+          <button data-v="count">Wg częstości</button>
+        </div>
+      </div>
+      <div class="chart" id="freq"></div>
+    </section>
+
+    <section>
+      <h2>Ile losowań temu padła każda liczba</h2>
+      <p class="muted">Im ciemniejsze pole, tym dłużej liczba nie padła.</p>
+      <div class="grid49" id="gaps"></div>
+    </section>
+
+    <section>
+      <h2>Najczęstsze pary</h2>
+      <ol class="pairs" id="pairs"></ol>
+    </section>
+
+    <section>
+      <h2>Ostatnie losowania</h2>
+      <div class="table-wrap"><table id="recent"></table></div>
+    </section>
+  </main>
+  <div class="tooltip" id="tooltip" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
