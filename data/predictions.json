@@ -1,3 +1,4 @@
 [
-  {"nr":7417,"date":"2026-10-13","createdAt":"2026-10-13T10:43:48.520Z","picks":{"hot":[9,18,22,28,31,38],"cold":[11,13,16,17,21,49],"top":[6,17,21,27,34,38],"random":[3,11,24,29,42,45],"own":[4,15,23,32,40,47]},"notes":{"own":"Liczby rozłożone równo po całym zakresie 1–49, bez sugerowania się statystyką – i tak każda szóstka ma te same szanse."}}
+  {"nr":7417,"date":"2026-10-13","createdAt":"2026-10-13T10:43:48.520Z","picks":{"hot":[9,18,22,28,31,38],"cold":[11,13,16,17,21,49],"top":[6,17,21,27,34,38],"random":[3,11,24,29,42,45],"own":[4,15,23,32,40,47]},"notes":{"own":"Liczby rozłożone równo po całym zakresie 1–49, bez sugerowania się statystyką – i tak każda szóstka ma te same szanse."}},
+  {"nr":7418,"date":"2026-10-15","createdAt":"2026-10-13T21:46:44.150Z","picks":{"hot":[9,18,27,28,31,38],"cold":[11,13,16,17,21,49],"top":[6,17,21,27,34,38],"random":[17,22,25,30,31,38]}}
 ]
