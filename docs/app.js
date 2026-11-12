@@ -1,4 +1,4 @@
-import { STRATEGIES, RANDOM_DIST, trackerFor, backtest, countHits, nextDrawDate } from './strategies.js';
+import { STRATEGIES, RANDOM_DIST, trackerFor, backtest, countHits, firstDrawFrom, warsawNow, entryDraws } from './strategies.js';
 
 // Na GitHub Pages dane idą prosto z repo (zawsze świeże po commicie joba), lokalnie z ../data.
 const DATA = location.hostname.endsWith('github.io')
@@ -9,6 +9,7 @@ const $ = (id) => document.getElementById(id);
 const fmtDate = (iso) => iso.split('-').reverse().join('.');
 const pct = (x) => `${(x * 100).toFixed(2).replace('.', ',')}%`;
 const dec = (x, d = 3) => x.toFixed(d).replace('.', ',');
+const fmtMonth = (m) => new Date(`${m}-01T12:00:00Z`).toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' });
 const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
 
 const balls = (nums, { hit = [], cls = '', sm = false } = {}) =>
@@ -51,13 +52,12 @@ renderPairs();
 renderRecent();
 
 function renderNext() {
-  const nr = last.nr + 1;
-  const saved = predictions.find((p) => p.nr === nr);
+  const month = firstDrawFrom(warsawNow()).slice(0, 7);
+  const saved = predictions.find((p) => p.month === month);
   const picks = saved?.picks ?? tracker.picks();
-  const date = saved?.date ?? nextDrawDate(last.date);
   $('next-meta').textContent = saved
-    ? `Losowanie nr ${nr}, ${fmtDate(date)} · zapisane ${new Date(saved.createdAt).toLocaleString('pl-PL')}`
-    : `Losowanie nr ${nr}, ${fmtDate(date)} · podgląd, job jeszcze nie zapisał typów`;
+    ? `${fmtMonth(month)} · grają od losowania ${fmtDate(saved.from)} · zapisane ${new Date(saved.createdAt).toLocaleString('pl-PL')}`
+    : `${fmtMonth(month)} · podgląd, typy zapisze job 1. dnia miesiąca`;
   const empty = (s) => (s.manual ? 'jeszcze niewybrany' : 'losowane przy zapisie');
   $('next-cards').innerHTML = STRATEGIES.map((s) => {
     const note = saved?.notes?.[s.id];
@@ -68,13 +68,13 @@ function renderNext() {
 }
 
 function renderRecord() {
-  const settled = predictions
-    .map((p) => ({ ...p, draw: lottoByNr.get(p.nr) }))
-    .filter((p) => p.draw);
-  const pending = predictions.filter((p) => !lottoByNr.has(p.nr));
+  // Wpisy od najnowszych; stare są per losowanie (nr), nowe na cały miesiąc (month).
+  const rows = predictions
+    .map((p) => ({ ...p, draws: entryDraws(p, lotto) }))
+    .sort((x, y) => (y.from ?? y.date).localeCompare(x.from ?? x.date));
 
   $('record').innerHTML = STRATEGIES.map((s) => {
-    const hits = settled.filter((p) => p.picks[s.id]).map((p) => countHits(p.picks[s.id], p.draw.numbers));
+    const hits = rows.flatMap((p) => (p.picks[s.id] ? p.draws.map((d) => countHits(p.picks[s.id], d.numbers)) : []));
     const total = hits.reduce((a, b) => a + b, 0);
     const wins = hits.filter((h) => h >= 3).length;
     return `<div class="card"><h3>${s.name}</h3>
@@ -82,38 +82,52 @@ function renderRecord() {
       <p class="big">${total} traf.</p><p>wygrane (3+): ${wins}</p></div>`;
   }).join('');
 
-  const rows = [...pending, ...settled.reverse()];
   if (!rows.length) {
     $('history').innerHTML = '<tr><td>Jeszcze nic nie zapisano.</td></tr>';
     return;
   }
   $('history').innerHTML =
-    `<thead><tr><th>Losowanie</th>${STRATEGIES.map((s) => `<th>${s.name}</th>`).join('')}</tr></thead><tbody>` +
-    rows
-      .map((p) => {
-        const d = p.draw;
-        const pl = d && plusByDate.get(d.date);
-        const head = d
-          ? `nr ${p.nr}, ${fmtDate(d.date)}<br>${balls(d.numbers, { cls: 'drawn', sm: true })}`
-          : `nr ${p.nr}, ${fmtDate(p.date)}<br><span class="plus">czeka na losowanie</span>`;
-        const cells = STRATEGIES.map((s) => {
-          const pick = p.picks[s.id];
-          if (!pick) return '<td>–</td>';
-          if (!d) return `<td>${balls(pick, { sm: true })}</td>`;
-          const h = countHits(pick, d.numbers);
-          const plusInfo = pl ? `<br><span class="plus">Plus: ${countHits(pick, pl.numbers)} traf.</span>` : '';
-          return `<td>${balls(pick, { hit: d.numbers, sm: true })}<span class="hits${h >= 3 ? ' win' : ''}">${h}</span>${plusInfo}</td>`;
-        }).join('');
-        return `<tr><td>${head}</td>${cells}</tr>`;
-      })
-      .join('') +
+    `<thead><tr><th>Okres</th>${STRATEGIES.map((s) => `<th>${s.name}</th>`).join('')}</tr></thead><tbody>` +
+    rows.map((p) => (p.month ? monthRow(p) : drawRow(p))).join('') +
     '</tbody>';
+}
+
+function monthRow(p) {
+  const n = p.draws.length;
+  const head = `${fmtMonth(p.month)}<br><span class="plus">${n ? `${n} losowań od ${fmtDate(p.from)}` : 'czeka na losowania'}</span>`;
+  const cells = STRATEGIES.map((s) => {
+    const pick = p.picks[s.id];
+    if (!pick) return '<td>–</td>';
+    if (!n) return `<td>${balls(pick, { sm: true })}</td>`;
+    const hits = p.draws.map((d) => countHits(pick, d.numbers));
+    const best = Math.max(...hits);
+    const sum = hits.reduce((a, b) => a + b, 0);
+    return `<td>${balls(pick, { sm: true })}<span class="hits${best >= 3 ? ' win' : ''}">${sum}</span><br><span class="plus">najlepiej ${best} · ${hits.join(' ')}</span></td>`;
+  }).join('');
+  return `<tr><td>${head}</td>${cells}</tr>`;
+}
+
+function drawRow(p) {
+  const d = p.draws[0];
+  const pl = d && plusByDate.get(d.date);
+  const head = d
+    ? `nr ${p.nr}, ${fmtDate(d.date)}<br>${balls(d.numbers, { cls: 'drawn', sm: true })}`
+    : `nr ${p.nr}, ${fmtDate(p.date)}<br><span class="plus">czeka na losowanie</span>`;
+  const cells = STRATEGIES.map((s) => {
+    const pick = p.picks[s.id];
+    if (!pick) return '<td>–</td>';
+    if (!d) return `<td>${balls(pick, { sm: true })}</td>`;
+    const h = countHits(pick, d.numbers);
+    const plusInfo = pl ? `<br><span class="plus">Plus: ${countHits(pick, pl.numbers)} traf.</span>` : '';
+    return `<td>${balls(pick, { hit: d.numbers, sm: true })}<span class="hits${h >= 3 ? ' win' : ''}">${h}</span>${plusInfo}</td>`;
+  }).join('');
+  return `<tr><td>${head}</td>${cells}</tr>`;
 }
 
 function renderBacktest() {
   const bt = backtest(lotto);
   $('backtest-meta').textContent =
-    `${bt.draws} losowań od ${fmtDate(bt.from.date)} – typ na każde liczony tylko z danych sprzed niego.`;
+    `${bt.draws} losowań od ${fmtDate(bt.from.date)} – typy liczone raz w miesiącu z danych sprzed niego i grane na każde losowanie w tym miesiącu.`;
   const row = (name, dist, cls = '') => {
     const mean = dist.reduce((a, p, k) => a + p * k, 0);
     const ge = (m) => dist.slice(m).reduce((a, b) => a + b, 0);

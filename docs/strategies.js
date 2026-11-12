@@ -7,7 +7,7 @@ export const STRATEGIES = [
   { id: 'cold', name: 'Zimne', desc: 'najdłużej niewylosowane' },
   { id: 'top', name: 'Najczęstsze', desc: 'najczęstsze w całej historii' },
   { id: 'random', name: 'Losowe', desc: 'czysty przypadek – punkt odniesienia' },
-  { id: 'own', name: 'Własny typ', desc: 'wybierany ręcznie przed losowaniem', manual: true },
+  { id: 'own', name: 'Własny typ', desc: 'wybierany ręcznie raz w miesiącu', manual: true },
 ];
 
 export const AUTO_IDS = ['hot', 'cold', 'top', 'random'];
@@ -85,13 +85,17 @@ const binom = (n, k) => {
 };
 export const RANDOM_DIST = Array.from({ length: 7 }, (_, k) => (binom(6, k) * binom(43, 6 - k)) / binom(49, 6));
 
-// Wsteczny test: dla każdego losowania od `start` liczy typy wyłącznie z wcześniejszych danych.
+// Wsteczny test jak w realu: typy liczone raz w miesiącu (z danych sprzed miesiąca) i grane na każde losowanie w nim.
 export function backtest(draws, start = 1000) {
   const t = trackerFor(draws.slice(0, start));
   const ids = ['hot', 'cold', 'top'];
   const dist = Object.fromEntries(ids.map((id) => [id, Array(7).fill(0)]));
+  let month, p;
   for (let i = start; i < draws.length; i++) {
-    const p = t.picks();
+    if (draws[i].date.slice(0, 7) !== month) {
+      month = draws[i].date.slice(0, 7);
+      p = t.picks();
+    }
     for (const id of ids) dist[id][countHits(p[id], draws[i].numbers)]++;
     t.add(draws[i].numbers);
   }
@@ -104,4 +108,21 @@ export function nextDrawDate(lastDate) {
   do d.setUTCDate(d.getUTCDate() + 1);
   while (![2, 4, 6].includes(d.getUTCDay()));
   return d.toISOString().slice(0, 10);
+}
+
+// Pierwsze losowanie, na które typ zapisany teraz jest jeszcze uczciwy (do 21:30 w dniu losowania).
+// `now` to czas warszawski "YYYY-MM-DD HH:MM…".
+export function firstDrawFrom(now) {
+  const today = now.slice(0, 10);
+  const d = new Date(`${today}T12:00:00Z`);
+  if (now.slice(11, 16) < '21:30') d.setUTCDate(d.getUTCDate() - 1);
+  return nextDrawDate(d.toISOString().slice(0, 10));
+}
+
+export const warsawNow = () => new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Warsaw' });
+
+// Losowania, na które gra dany wpis: stary (per losowanie, `nr`) albo miesięczny (`month` od `from`).
+export function entryDraws(entry, lotto) {
+  if (entry.nr) return lotto.filter((d) => d.nr === entry.nr);
+  return lotto.filter((d) => d.date.slice(0, 7) === entry.month && d.date >= entry.from);
 }

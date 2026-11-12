@@ -1,7 +1,7 @@
 // Pobiera wyniki Lotto i Lotto Plus z mbnet.com.pl i dopisuje brakujące losowania do data/*.json.
 // Idempotentne: losowania są kluczowane numerem, istniejące rekordy nie są nadpisywane.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { AUTO_IDS, trackerFor, randomPicks, nextDrawDate } from '../docs/strategies.js';
+import { AUTO_IDS, trackerFor, randomPicks, firstDrawFrom, warsawNow } from '../docs/strategies.js';
 
 const PREDICTIONS = 'data/predictions.json';
 
@@ -71,30 +71,28 @@ for (const { name, url, file } of SOURCES) {
   console.log(`${name}: +${draws.length - existing.length}, razem ${draws.length}, ostatnie ${last.nr} (${last.date}) ${last.numbers.join(',')}`);
 }
 
-// Typy na następne losowanie Lotto – zapisywane przed losowaniem, rozliczane później na stronie.
+// Typy na cały miesiąc – zapisywane przed pierwszym losowaniem, grane na każde losowanie w miesiącu.
 const lotto = merged.lotto;
-const last = lotto.at(-1);
-const next = { nr: last.nr + 1, date: nextDrawDate(last.date) };
+const from = firstDrawFrom(warsawNow());
+const month = from.slice(0, 7);
 const predictions = await readExisting(PREDICTIONS);
-const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Warsaw' });
 
 // Wpis mógł już powstać z samym własnym typem – wtedy uzupełniamy tylko brakujące strategie automatyczne.
-let entry = predictions.find((p) => p.nr === next.nr);
+let entry = predictions.find((p) => p.month === month);
 const missing = AUTO_IDS.filter((id) => !entry?.picks[id]);
 
 if (!missing.length) {
-  console.log(`typy: na losowanie ${next.nr} już są`);
-} else if (next.date < today) {
-  // Losowanie prawdopodobnie już się odbyło, a źródło jeszcze go nie ma – typ po fakcie byłby nieuczciwy.
-  console.warn(`typy: pomijam losowanie ${next.nr} (${next.date}) – data już minęła`);
+  console.log(`typy: na ${month} już są`);
+} else if (entry && entry.from < from) {
+  // Losowania od entry.from już mogły się odbyć – dopisany teraz typ byłby nieuczciwy.
+  console.warn(`typy: pomijam ${month} – wpis gra od ${entry.from}, a to już minęło`);
 } else {
   if (!entry) {
-    entry = { ...next, createdAt: new Date().toISOString(), picks: {} };
+    entry = { month, from, createdAt: new Date().toISOString(), picks: {} };
     predictions.push(entry);
   }
   const auto = { ...trackerFor(lotto).picks(), random: randomPicks() };
   for (const id of missing) entry.picks[id] = auto[id];
-  predictions.sort((a, b) => a.nr - b.nr);
   await writeFile(PREDICTIONS, serialize(predictions));
-  console.log(`typy: losowanie ${next.nr} (${next.date}) ${JSON.stringify(entry.picks)}`);
+  console.log(`typy: ${month} od ${entry.from} ${JSON.stringify(entry.picks)}`);
 }

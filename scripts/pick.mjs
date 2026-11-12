@@ -1,6 +1,7 @@
-// Zapisuje własny typ na następne losowanie: node scripts/pick.mjs 7,14,23,31,38,44 "krótkie uzasadnienie"
+// Zapisuje własny typ na bieżący miesiąc: node scripts/pick.mjs 7,14,23,31,38,44 "krótkie uzasadnienie"
+// Typ gra na każde losowanie w miesiącu, od pierwszego, na które da się jeszcze uczciwie typować.
 import { readFile, writeFile } from 'node:fs/promises';
-import { nextDrawDate } from '../docs/strategies.js';
+import { firstDrawFrom, warsawNow } from '../docs/strategies.js';
 
 const PREDICTIONS = 'data/predictions.json';
 const [nums, note] = process.argv.slice(2);
@@ -11,30 +12,26 @@ if (picks.length !== 6 || new Set(picks).size !== 6 || !picks.every((n) => Numbe
   process.exit(1);
 }
 
-const lotto = JSON.parse(await readFile('data/lotto.json', 'utf8'));
-const last = lotto.at(-1);
-const next = { nr: last.nr + 1, date: nextDrawDate(last.date) };
-
-// Typ po 21:30 w dniu losowania (lub później) byłby nieuczciwy – losowanie jest o 22:00.
-const now = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Warsaw' }).slice(0, 16);
-if (now >= `${next.date} 21:30`) {
-  console.error(`Za późno na typ na losowanie ${next.nr} (${next.date}, 22:00).`);
-  process.exit(1);
-}
+const from = firstDrawFrom(warsawNow());
+const month = from.slice(0, 7);
 
 const predictions = JSON.parse(await readFile(PREDICTIONS, 'utf8'));
-let entry = predictions.find((p) => p.nr === next.nr);
+let entry = predictions.find((p) => p.month === month);
 if (entry?.picks.own) {
-  console.error(`Własny typ na losowanie ${next.nr} już jest: ${entry.picks.own.join(',')}`);
+  console.error(`Własny typ na ${month} już jest: ${entry.picks.own.join(',')}`);
+  process.exit(1);
+}
+// Wpis gra od entry.from – jeśli to losowanie już minęło, typ byłby po fakcie.
+if (entry && entry.from < from) {
+  console.error(`Za późno na typ na ${month}: wpis gra od ${entry.from}.`);
   process.exit(1);
 }
 if (!entry) {
-  entry = { ...next, createdAt: new Date().toISOString(), picks: {} };
+  entry = { month, from, createdAt: new Date().toISOString(), picks: {} };
   predictions.push(entry);
-  predictions.sort((a, b) => a.nr - b.nr);
 }
 entry.picks.own = picks;
 if (note) entry.notes = { ...entry.notes, own: note };
 
 await writeFile(PREDICTIONS, `[\n${predictions.map((p) => '  ' + JSON.stringify(p)).join(',\n')}\n]\n`);
-console.log(`Własny typ na losowanie ${next.nr} (${next.date}): ${picks.join(',')}`);
+console.log(`Własny typ na ${month} (od ${entry.from}): ${picks.join(',')}`);

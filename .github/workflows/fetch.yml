@@ -2,9 +2,8 @@ name: fetch results
 
 on:
   schedule:
-    - cron: '0 5 * * *'
-    # Zapas przed losowaniem o 22:00, gdyby poranny run się nie udał.
-    - cron: '0 17 * * *'
+    # Raz w miesiącu: 1. dnia o 05:00 UTC (6:00/7:00 w Polsce) – dane za poprzedni miesiąc i typy na nowy.
+    - cron: '0 5 1 * *'
   workflow_dispatch:
 
 permissions:
